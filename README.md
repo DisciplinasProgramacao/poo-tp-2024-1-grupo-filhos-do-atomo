@@ -7,8 +7,8 @@ Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
 * Elvis Fernando Santos Tolentino
 * Hayanne Santos da Silva
 * Miguel Sanches Braga Inácio
-* Nome completo do aluno 5
-* Nome completo do aluno 6
+* Pedro Ribeiro Canuto
+* Vitor Lopes Nocce
 
 ## Professores responsáveis
 
