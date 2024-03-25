@@ -1,6 +1,6 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-7f7980b617ed060a017424585567c406b6ee15c891e84e1186181d67ecf80aa0.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=14313885)
-# Nome do projeto
-Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
+# OO Comidinhas Veganas
+O objetivo geral do projeto é a análise, modelagem e implementação incremental de um sistema de gerenciamento dos processos de um restaurante vegano, considerando necessidades como a gestão de entrada e saída dos clientes por meio das reservas das mesas do estabelecimento. O projeto será desenvolvido utilizando os conceitos do paradigma de Programação Orientada a Objetos, visando construir um sistema flexível, eficiente e de boa qualidade para os requisitos do restaurante.
 
 ## Alunos integrantes da equipe
 
