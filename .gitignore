@@ -1,3 +1,10 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio hidden folder
+.vs/
+
 # Compiled class file
 **/*.class
 
