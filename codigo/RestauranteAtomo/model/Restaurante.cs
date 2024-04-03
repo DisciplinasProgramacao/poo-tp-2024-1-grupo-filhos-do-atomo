@@ -14,7 +14,7 @@ namespace RestauranteAtomo.model
 
         private const int _maxMesas = 10;
         private List<Mesas> _mesas;
-        private List<Requisicao> _filaDeEspera;
+        private Queue<Requisicao> _filaDeEspera;
         private int _id;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace RestauranteAtomo.model
         {
             _id = id;
             _mesas = new List<Mesas>();
-            _filaDeEspera = new List<Requisicao>();
+            _filaDeEspera = new Queue<Requisicao>();
         }
 
         #endregion /* Fim Atributos */;
