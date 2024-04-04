@@ -60,8 +60,7 @@ namespace RestauranteAtomo
                 }
                 else
                 {
-                   cliente.fazerRequisicao(quantidadePessoas);
-                   restaurante.atenderCliente(cliente);
+                   restaurante.atenderCliente(cliente, quantidadePessoas);
                 }
             }while (quantidadePessoas <= 0);
         }
