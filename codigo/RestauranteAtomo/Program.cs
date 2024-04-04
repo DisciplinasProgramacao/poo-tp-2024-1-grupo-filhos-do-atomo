@@ -64,6 +64,60 @@ namespace RestauranteAtomo
                 }
             }while (quantidadePessoas <= 0);
         }
+
+        // Hayanne
+
+        /// <summary>
+        /// verifica se a fila de espera não está vazia, e remove a primeira requisição da fila.
+        /// o Find é utilizado para encontrar uma mesa disponível na lista de mesas (mesas) 
+        /// que está associada ao restaurante. O critério de busca é uma expressão lambda 
+        /// que verifica se a mesa está liberada (m.ocupada == false).Se uma mesa liberada for encontrada, 
+        /// ela é retornada pelo Find e armazenada na variável mesa. Se nenhuma mesa desocupada for encontrada, 
+        /// o Find retorna null, indicando que não há mesas disponíveis para atender à requisição.
+        /// </summary>
+        /// <param name="requisicao">Recebe um objeto Requisicao</param>
+        /// <returns>Retorna true se a requisição foi finalizada com sucesso, retorna false se não havia nenhuma requisição ou não foi encontrada nenhuma mesa ocupada</returns>
+        public bool finalizarRequisicao(Requisicao requisicao)
+        {
+            if (restaurante.getFilaDeEspera.Count > 0)
+            {
+                restaurante.getFilaDeEspera.Dequeue();
+                Mesa mesa = mesas.Find(m => m.ocupada == true);
+                if (mesa != null) mesa.liberar();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// É instaciado um lista mesas, se a posicao da mesa estiver liberada, 
+        /// ela é adicionada a lista de mesas.
+        /// </summary>
+        /// <param name="mesa">Recebe uma mesa do tipo Mesa</param>
+        public void adicionarMesa(Mesa mesa)
+        {
+            if (mesas.liberar()) mesas.Add(mesa);
+        }
+
+        /// <summary>
+        /// É instanciado uma nova lista de Mesa com nome "mesasLivres", 
+        /// um for percorre a lista de mesas ja usada e verifica a cada posição se a mesa está liberada, 
+        /// se for verdadeiro é adicionada a nova lista de mesas liberadas.
+        /// </summary>
+        /// <returns>Retorna a lista de mesas liberadas</returns>
+        private List<Mesa> buscarMesaLivre()
+        {
+            List<Mesa> mesasLivres = new List<Mesa>();
+
+            for (int i = 0; i < mesas.Count; i++)
+            {
+                if (mesas[i].liberar())
+                {
+                    mesasLivres.Add(mesas[i]);
+                }
+            }
+            return mesasLivres;
+        }
         #endregion
 
         static void Main(string[] args)
