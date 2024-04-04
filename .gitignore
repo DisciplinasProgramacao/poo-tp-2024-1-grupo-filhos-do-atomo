@@ -43,6 +43,3 @@
 **/*.exe
 
 desktop.ini
-codigo/RestauranteAtomo/model/Requisicao.cs
-codigo/RestauranteAtomo/model/Cliente.cs
-codigo/RestauranteAtomo/model/Mesa.cs
