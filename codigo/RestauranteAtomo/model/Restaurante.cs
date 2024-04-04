@@ -8,15 +8,14 @@ namespace RestauranteAtomo.model
 {
     internal class Restaurante
     {
-
         #region  /* Atributos */
-
-
+        
+        
         private const int _maxMesas = 10;
         private List<Mesa> _mesas;
         private Queue<Requisicao> _filaDeEspera;
         private int _id;
-
+        
         /// <summary>
         /// Construtor da classe restaurante
         /// </summary>
@@ -27,37 +26,44 @@ namespace RestauranteAtomo.model
             _mesas = new List<Mesa>();
             _filaDeEspera = new Queue<Requisicao>();
         }
-
+        
         #endregion /* Fim Atributos */;
-
-
+        
+        
         #region  /* Métodos Privados */
-
+        
         private List<Mesa> buscarMesasLivres() 
         {
-           return _mesas;
-        }
-
-        private void alocarMesa(Requisicao requisicao)
-        {
-            foreach (Mesa mesas in _mesas)
+            List<Mesa> mesasLivres = new List<Mesa>();
+            foreach(Mesa mesas in _mesas)
             {
-                if (mesas.validaAlocao(requisicao.QuantLugares))
+                if (!mesas.Ocupada)
                 {
-                    mesas.ocupar();
+                    mesasLivres.Add(mesas);
                 }
-                else
+            }
+            return mesasLivres;
+        }
+        
+        private void realizarAlocacaoMesa(Requisicao requisicao)
+        {
+            List<Mesa> mesasLivres = buscarMesasLivres();
+        
+            foreach(Mesa mesa in mesasLivres)
+            {
+                if (mesa.validaAlocacao(requisicao.QuantLugares) && !mesa.Ocupada)
                 {
-                    adicionarFilaEspera(requisicao);
+                    requisicao.alocarMesa(mesa);
+                    return;
                 }
             }
         }
-
+        
         #endregion /* Fim Metodo Privado */;
-
-
+        
+        
         #region  /* Métodos Publicos */
-
+        
         
         /// <summary>
         /// Registra uma nova mesa para o restaurante
@@ -74,9 +80,11 @@ namespace RestauranteAtomo.model
         /// Atende a requisicao feita pelo cliente
         /// </summary>
         /// <param name="cliente">Recebe o cliente que fez a requisicao</param>
-        public void atenderCliente(Cliente cliente) 
+        /// <param name="quantPessoas">Quantidade de pessoas na mesa</param>
+        public void atenderCliente(Cliente cliente, int quantPessoas) 
         {
-            alocarMesa(cliente.Requisicao);
+            cliente.fazerRequisicao(quantPessoas);
+            realizarAlocacaoMesa(cliente.Requisicao);
         }
         public void adicionarFilaEspera(Requisicao requisicao) 
         { 
@@ -84,17 +92,14 @@ namespace RestauranteAtomo.model
         }
         public void atenderProximoFilaEspera() 
         { 
-            foreach(Requisicao atendimento in _filaDeEspera)
-            {
-
-            }
+            Requisicao atenderFila = _filaDeEspera.Dequeue();
+            realizarAlocacaoMesa(atenderFila);
         }
         public void finalizarRequisicao(Requisicao requisicao) 
-        { 
-        
+        {
+            requisicao.foiAtendida();
         }
-
+        
         #endregion /* Fim Metodo Publicos */;
-
     }
 }
