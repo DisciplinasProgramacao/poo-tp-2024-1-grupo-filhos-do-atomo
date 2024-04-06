@@ -50,6 +50,23 @@ namespace RestauranteAtomo.model
         }
         #endregion
 
+
+
+        #region Propriedades
+
+        /// <summary>
+        ///  propriedade get para ver a quantidade de lugares da requisicao
+        /// </summary>
+        /// <returns> Returna a  quantidade de lugares</returns>
+        public int QuantLugares
+        {
+            get => this.quantLugares;
+        }
+        
+        #endregion
+
+
+
         #region Metódos
 
 
@@ -64,16 +81,15 @@ namespace RestauranteAtomo.model
 
 
         /// <summary>
-        ///  Verifica se a mesa passada como parametro serve para atender a requisição
+        ///  Aloca mesa passada como parametro  para atender a requisição
         /// </summary>
         /// <param name="mesa">Mesa do restaurante passada por parametro</param>
         public void alocarMesa(Mesa mesa)
         {
-            if (mesa.capacidade <= quantLugares)
-            {
+           
                 this.mesa = mesa;
                 atendida = true;
-            }
+            
 
         }
 
