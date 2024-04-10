@@ -44,14 +44,17 @@ namespace RestauranteAtomo.model
             }
             return mesasLivres;
         }
-        
+        /// <summary>
+        /// Metodo para realizar a alocacao do cliente a uma mesa ou fila de espera
+        /// </summary>
+        /// <param name="requisicao">requisicao feita pelo cliente</param>
         private void realizarAlocacaoMesa(Requisicao requisicao)
         {
             List<Mesa> mesasLivres = buscarMesasLivres();
         
             foreach(Mesa mesa in mesasLivres)
             {
-                if (mesa.validaAlocacao(requisicao.QuantLugares) && !mesa.Ocupada)
+                if (mesa.validaAlocacao(requisicao.QuantLugares))
                 {
                     requisicao.alocarMesa(mesa);
                     return;
@@ -86,17 +89,29 @@ namespace RestauranteAtomo.model
             cliente.fazerRequisicao(quantPessoas);
             realizarAlocacaoMesa(cliente.Requisicao);
         }
+        /// <summary>
+        /// Metodo para adicionar a requisicao a uma fila de espera
+        /// </summary>
+        /// <param name="requisicao">requisicao feita pelo cliente</param>
         public void adicionarFilaEspera(Requisicao requisicao) 
         { 
             _filaDeEspera.Enqueue(requisicao);
         }
+        /// <summary>
+        /// Metodo para remover a requisicao atendida da fila de espera
+        /// </summary>
         public void atenderProximoFilaEspera() 
         { 
             Requisicao atenderFila = _filaDeEspera.Dequeue();
             realizarAlocacaoMesa(atenderFila);
         }
+        /// <summary>
+        /// Metodo para finalizar a requisicao do cliente
+        /// </summary>
+        /// <param name="requisicao">requisicao feita pelo cliente</param>
         public void finalizarRequisicao(Requisicao requisicao) 
         {
+            requisicao.registrarHoraSaida();
             requisicao.foiAtendida();
         }
         
