@@ -18,6 +18,8 @@ namespace RestauranteAtomo
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Menu");
             sb.AppendLine("1) Atender novo cliente");
+            sb.AppendLine("2) Adicionar mesa ao Restaurante");
+            sb.AppendLine("3) Finalizar requisição do cliente");
             sb.AppendLine("0) Sair do programa");
 
             return sb.ToString();
@@ -68,55 +70,49 @@ namespace RestauranteAtomo
         // Hayanne
 
         /// <summary>
-        /// verifica se a fila de espera não está vazia, e remove a primeira requisição da fila.
-        /// o Find é utilizado para encontrar uma mesa disponível na lista de mesas (mesas) 
-        /// que está associada ao restaurante. O critério de busca é uma expressão lambda 
-        /// que verifica se a mesa está liberada (m.ocupada == false).Se uma mesa liberada for encontrada, 
-        /// ela é retornada pelo Find e armazenada na variável mesa. Se nenhuma mesa desocupada for encontrada, 
-        /// o Find retorna null, indicando que não há mesas disponíveis para atender à requisição.
+        /// Chama o método finalizarRequisição() da classe Rstaurante.
         /// </summary>
-        /// <param name="requisicao">Recebe um objeto Requisicao</param>
-        /// <returns>Retorna true se a requisição foi finalizada com sucesso, retorna false se não havia nenhuma requisição ou não foi encontrada nenhuma mesa ocupada</returns>
-        public bool finalizarRequisicao(Requisicao requisicao)
+        /// <param name="requisicao">Recebe uma requisição como parâmetro</param>
+        /// <returns></returns>
+        public void finalizarRequisicao(Requisicao requisicao)
         {
-            if (restaurante.getFilaDeEspera.Count > 0)
-            {
-                restaurante.getFilaDeEspera.Dequeue();
-                Mesa mesa = mesas.Find(m => m.ocupada == true);
-                if (mesa != null) mesa.liberar();
-                return true;
-            }
-            return false;
+            restaurante.finalizarRequisicao(requisicao);
         }
 
         /// <summary>
-        /// É instaciado um lista mesas, se a posicao da mesa estiver liberada, 
-        /// ela é adicionada a lista de mesas.
+        ///  O usuário digitar a capacidade da mesa, o numero da mesa, 
+        /// criar o objeto mesa com esses dados e chamar o restaurante.adicionarMesa(mesa).
         /// </summary>
-        /// <param name="mesa">Recebe uma mesa do tipo Mesa</param>
-        public void adicionarMesa(Mesa mesa)
+        public void adicionarMesa()
         {
-            if (mesas.liberar()) mesas.Add(mesa);
-        }
+            bool ocupada = true;
 
-        /// <summary>
-        /// É instanciado uma nova lista de Mesa com nome "mesasLivres", 
-        /// um for percorre a lista de mesas ja usada e verifica a cada posição se a mesa está liberada, 
-        /// se for verdadeiro é adicionada a nova lista de mesas liberadas.
-        /// </summary>
-        /// <returns>Retorna a lista de mesas liberadas</returns>
-        private List<Mesa> buscarMesaLivre()
-        {
-            List<Mesa> mesasLivres = new List<Mesa>();
-
-            for (int i = 0; i < mesas.Count; i++)
+            Console.WriteLine("A mesa possui capacidade para quantas pessoas?");
+            int capacidade;
+            do
             {
-                if (mesas[i].liberar())
+                capacidade = int.Parse(Console.ReadLine());
+                if (capacidade <= 0)
                 {
-                    mesasLivres.Add(mesas[i]);
+                    Console.WriteLine("A capacidade tem que ser maior que 0. Digite novamente.");
                 }
-            }
-            return mesasLivres;
+                else break;
+            } while (capacidade > 0);
+
+            Console.WriteLine("Informe o número da mesa:");
+            int numero;
+            do
+            {
+                numero = int.Parse(Console.ReadLine());
+                if (numero == 0)
+                {
+                    Console.WriteLine("O número tem que ser diferente de 0. Digite novamente.");
+                }
+                else break;
+            } while (numero != 0);
+
+            Mesa mesa = new Mesa(capacidade, numero, ocupada);
+            restaurante.adicionarMesa(mesa);
         }
         #endregion
 
@@ -138,6 +134,15 @@ namespace RestauranteAtomo
                         }else {
                             Console.WriteLine("Cliente não registrado. Informações não preenchidas corretamente!");
                         }
+                        break;
+                    case 2:
+                        adicionarMesa();
+                        break;
+                    case 3:
+                        if (cliente != null) finalizarRequisicao(cliente.Requisicao());
+                        else Console.WriteLine("Cliente não registrado.Inicie o atendimento antes de finalizar uma requisição!");
+                        break;
+                        break;
                         break;
                     case 0:
                         break;
