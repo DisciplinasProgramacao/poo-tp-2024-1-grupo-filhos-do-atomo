@@ -33,12 +33,14 @@ namespace RestauranteAtomo
             string nome = Console.ReadLine();
 
             Console.WriteLine("Informe o contato do cliente (telefone)");
-            string contato = Console.ReadLine();
+            long contato;
 
-            if(nome.Length <= 3 && contato.Length == 0)
+            bool numeroValido = long.TryParse(Console.ReadLine(), out contato);
+
+            if(nome.Length <= 3 && !numeroValido)
                 return null;
      
-            return new Cliente();
+            return new Cliente(nome, contato);
         }
 
         /// <summary>
@@ -123,6 +125,7 @@ namespace RestauranteAtomo
         static void Main(string[] args)
         {
             int opcao;
+            Cliente cliente = null;
             do
             {
                 Console.WriteLine(menu());
@@ -131,13 +134,11 @@ namespace RestauranteAtomo
                 switch (opcao)
                 {
                     case 1:
-                        Cliente cliente = registrarCliente();
-
-                        if(cliente != null){
+                        cliente = registrarCliente();
+                        if(cliente != null)
                             iniciarAtendimento(cliente);
-                        }else {
+                        else 
                             Console.WriteLine("Cliente não registrado. Informações não preenchidas corretamente!");
-                        }
                         break;
                     case 0:
                         break;
