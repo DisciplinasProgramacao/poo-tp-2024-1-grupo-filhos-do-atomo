@@ -42,7 +42,7 @@ namespace RestauranteAtomo
             if(nome.Length <= 3 && !numeroValido)
                 return null;
      
-            return new Cliente(nome, contato);
+            return new Cliente(nome, contato.ToString());
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace RestauranteAtomo
         /// </summary>
         /// <param name="requisicao">Recebe uma requisição como parâmetro</param>
         /// <returns></returns>
-        public void finalizarRequisicao(Requisicao requisicao)
+        public static void finalizarRequisicao(Requisicao requisicao)
         {
             restaurante.finalizarRequisicao(requisicao);
         }
@@ -85,7 +85,7 @@ namespace RestauranteAtomo
         ///  O usuário digitar a capacidade da mesa, o numero da mesa, 
         /// criar o objeto mesa com esses dados e chamar o restaurante.adicionarMesa(mesa).
         /// </summary>
-        public void adicionarMesa()
+        public static void adicionarMesa()
         {
             bool ocupada = true;
 
@@ -99,19 +99,19 @@ namespace RestauranteAtomo
                     Console.WriteLine("A capacidade tem que ser maior que 0. Digite novamente.");
                 }
                 else break;
-            } while (capacidade > 0);
+            } while (capacidade <= 0);
 
             Console.WriteLine("Informe o número da mesa:");
             int numero;
             do
             {
                 numero = int.Parse(Console.ReadLine());
-                if (numero == 0)
+                if (numero <= 0)
                 {
                     Console.WriteLine("O número tem que ser diferente de 0. Digite novamente.");
                 }
                 else break;
-            } while (numero != 0);
+            } while (numero <= 0);
 
             Mesa mesa = new Mesa(capacidade, numero, ocupada);
             restaurante.adicionarMesa(mesa);
@@ -140,10 +140,8 @@ namespace RestauranteAtomo
                         adicionarMesa();
                         break;
                     case 3:
-                        if (cliente != null) finalizarRequisicao(cliente.Requisicao());
+                        if (cliente != null) finalizarRequisicao(cliente.Requisicao);
                         else Console.WriteLine("Cliente não registrado.Inicie o atendimento antes de finalizar uma requisição!");
-                        break;
-                        break;
                         break;
                     case 0:
                         break;
