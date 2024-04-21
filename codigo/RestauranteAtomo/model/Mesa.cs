@@ -20,25 +20,25 @@ namespace RestauranteAtomo.model
         /// <param name="ocupada"> Se está Ocupada ou não</param>
         public Mesa(int numero, int capacidade, bool ocupada)
         {
-            Numero = numero;
+            this.numero = numero;
             this.capacidade = capacidade;
             this.ocupada = ocupada;
         }
 
-        public bool Numero
+        public int Numero
         {
-            get { return Numero; }
-            set { Numero = value; }
+            get { return numero; }
+            set { numero = value; }
         }
         public int Capacidade
         {
             get { return capacidade; }
-            set { Capacidade = value; }
+            set { capacidade = value; }
         }
         public bool Ocupada
         {
-            get { return Ocupada; }
-            set { Ocupada = value; }
+            get { return ocupada; }
+            set { ocupada = value; }
         }
         /// <summary>
         /// Valida a alocação Se a quantidade de pessoas for menor do que a capacidade e a mesa não estiver ocupada...
