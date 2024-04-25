@@ -1,4 +1,5 @@
 ﻿using RestauranteAtomo.model;
+using System.ComponentModel;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -6,15 +7,16 @@ namespace RestauranteAtomo
 {
     internal class Program
     {
-        #region atributo estático - restaurante
+        #region atributo estático
         static Restaurante restaurante = new Restaurante(1);
+        static List<Cliente> clientes = new List<Cliente>();
         #endregion
 
         #region metodos auxiliares e de execucao dos processos
         /// <summary>
         /// Retorna as opcoes de menu do sistema.
         /// </summary>
-        public static String menu()
+        public static string menu()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("\nMenu");
@@ -113,7 +115,7 @@ namespace RestauranteAtomo
         {
            Console.WriteLine("Informe o nome do cliente: ");
            string nome = Console.ReadLine();
-           return restaurante.encontrarCliente(nome);
+           return clientes.Find(cliente => cliente.Nome.ToLower() == nome.ToLower());
         }
 
         /// <summary>
@@ -197,10 +199,10 @@ namespace RestauranteAtomo
                         Cliente novoCliente = registrarCliente(out erros);
                         if(novoCliente != null)
                         {
-                            restaurante.adicionarCliente(novoCliente);
+                            clientes.Add(novoCliente);
                             Console.WriteLine(novoCliente);
 
-                            if(restaurante.Mesas.Count > 0 && deveIniciarAtendimento())
+                            if(deveIniciarAtendimento())
                                 iniciarAtendimento(novoCliente);
                         }else{ 
                             Console.WriteLine("Cliente não registrado. Informações não preenchidas corretamente:");
@@ -230,7 +232,7 @@ namespace RestauranteAtomo
                         }
                         break;
                     case 4:
-                        iniciarBuscaCliente cliente = iniciarBuscaCliente();
+                        Cliente cliente = iniciarBuscaCliente();
                         if (cliente != null) finalizarRequisicao(cliente.Requisicao);
                         else Console.WriteLine("Cliente não encontrado. Favor tentar novamente! \n");
                         break;
