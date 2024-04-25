@@ -134,6 +134,15 @@ namespace RestauranteAtomo
         public static void finalizarRequisicao(Requisicao requisicao)
         {
             restaurante.finalizarRequisicao(requisicao);
+            Console.WriteLine("A seguinte requisição foi encerrada: ");
+            Console.WriteLine(requisicao);
+
+            Requisicao requisicaoAtendida = restaurante.atenderProximoFilaEspera();
+            if(requisicaoAtendida != null)
+            {
+                Console.WriteLine("A seguinte requisição da liksta de espera foi atendida: ");
+                Console.WriteLine(" " + requisicaoAtendida);
+            }
         }
 
         /// <summary>
@@ -215,10 +224,15 @@ namespace RestauranteAtomo
                         break;
                     case 3:
                         adicionarMesa();
+                        foreach(Mesa mesa in restaurante.Mesas)
+                        {
+                            Console.WriteLine(mesa);
+                        }
                         break;
                     case 4:
+                        iniciarBuscaCliente cliente = iniciarBuscaCliente();
                         if (cliente != null) finalizarRequisicao(cliente.Requisicao);
-                        else Console.WriteLine("Cliente não registrado.Inicie o atendimento antes de finalizar uma requisição!");
+                        else Console.WriteLine("Cliente não encontrado. Favor tentar novamente! \n");
                         break;
                     case 0:
                         break;
