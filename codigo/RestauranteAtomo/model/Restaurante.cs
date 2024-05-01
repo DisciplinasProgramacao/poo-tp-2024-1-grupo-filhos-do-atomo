@@ -15,7 +15,8 @@ namespace RestauranteAtomo.model
         private List<Mesa> _mesas;
         private Queue<Requisicao> _filaDeEspera;
         private int _id;
-        
+
+
         /// <summary>
         /// Construtor da classe restaurante
         /// </summary>
@@ -26,6 +27,7 @@ namespace RestauranteAtomo.model
             _mesas = new List<Mesa>();
             _filaDeEspera = new Queue<Requisicao>();
         }
+        internal List<Mesa> Mesas { get => _mesas;}
         
         #endregion /* Fim Atributos */;
         
@@ -35,7 +37,7 @@ namespace RestauranteAtomo.model
         private List<Mesa> buscarMesasLivres() 
         {
             List<Mesa> mesasLivres = new List<Mesa>();
-            foreach(Mesa mesas in _mesas)
+            foreach(Mesa mesas in Mesas)
             {
                 if (!mesas.Ocupada)
                 {
@@ -48,18 +50,19 @@ namespace RestauranteAtomo.model
         /// Metodo para realizar a alocacao do cliente a uma mesa ou fila de espera
         /// </summary>
         /// <param name="requisicao">requisicao feita pelo cliente</param>
-        private void realizarAlocacaoMesa(Requisicao requisicao)
+        private bool realizarAlocacaoMesa(Requisicao requisicao)
         {
             List<Mesa> mesasLivres = buscarMesasLivres();
         
             foreach(Mesa mesa in mesasLivres)
             {
-                if (mesa.validaAlocacao(requisicao.QuantLugares))
+                if (mesa.ValidaAlocacao(requisicao.QuantLugares))
                 {
                     requisicao.alocarMesa(mesa);
-                    return;
+                    return true;
                 }
             }
+            return false;
         }
         
         #endregion /* Fim Metodo Privado */;
@@ -84,10 +87,11 @@ namespace RestauranteAtomo.model
         /// </summary>
         /// <param name="cliente">Recebe o cliente que fez a requisicao</param>
         /// <param name="quantPessoas">Quantidade de pessoas na mesa</param>
-        public void atenderCliente(Cliente cliente, int quantPessoas) 
+        public bool atenderCliente(Cliente cliente, int quantPessoas) 
         {
             cliente.fazerRequisicao(quantPessoas);
-            realizarAlocacaoMesa(cliente.Requisicao);
+            return realizarAlocacaoMesa(cliente.Requisicao);
+            
         }
         /// <summary>
         /// Metodo para adicionar a requisicao a uma fila de espera
@@ -100,10 +104,16 @@ namespace RestauranteAtomo.model
         /// <summary>
         /// Metodo para remover a requisicao atendida da fila de espera
         /// </summary>
-        public void atenderProximoFilaEspera() 
+        public bool atenderProximoFilaEspera() 
         { 
-            Requisicao atenderFila = _filaDeEspera.Dequeue();
-            realizarAlocacaoMesa(atenderFila);
+            Requisicao atenderFila = _filaDeEspera.Peek();
+            bool atendida = realizarAlocacaoMesa(atenderFila);
+            if (atendida)
+            {
+                 _filaDeEspera.Dequeue();
+                return true;
+            }
+            return false;
         }
         /// <summary>
         /// Metodo para finalizar a requisicao do cliente
@@ -112,7 +122,7 @@ namespace RestauranteAtomo.model
         public void finalizarRequisicao(Requisicao requisicao) 
         {
             requisicao.registrarHoraSaida();
-            requisicao.foiAtendida();
+            requisicao.Mesa.Liberar();
         }
         
         #endregion /* Fim Metodo Publicos */;

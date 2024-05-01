@@ -62,7 +62,12 @@ namespace RestauranteAtomo.model
         {
             get => this.quantLugares;
         }
-        
+
+        public Mesa Mesa
+        {
+            get => this.mesa;
+        }
+
         #endregion
 
 
@@ -89,7 +94,7 @@ namespace RestauranteAtomo.model
            
                 this.mesa = mesa;
                 atendida = true;
-            
+                this.mesa.Ocupar();
 
         }
 

@@ -139,11 +139,10 @@ namespace RestauranteAtomo
             Console.WriteLine("A seguinte requisição foi encerrada: ");
             Console.WriteLine(requisicao);
 
-            Requisicao requisicaoAtendida = restaurante.atenderProximoFilaEspera();
-            if(requisicaoAtendida != null)
+            bool requisicaoAtendida = restaurante.atenderProximoFilaEspera();
+            if(requisicaoAtendida)
             {
-                Console.WriteLine("A seguinte requisição da liksta de espera foi atendida: ");
-                Console.WriteLine(" " + requisicaoAtendida);
+                Console.WriteLine("Lista de espera atualizada! ");
             }
         }
 
@@ -156,16 +155,16 @@ namespace RestauranteAtomo
             bool ocupada = false;
 
             Console.WriteLine("A mesa possui capacidade para quantas pessoas?");
-            int capacidade;
+            int capacidade = 0;
             do
             {
                 capacidade = int.Parse(Console.ReadLine());
                 if (capacidade <= 0)
                 {
-                    Console.WriteLine("A capacidade tem que ser maior que 0. Digite novamente.");
+                    Console.WriteLine("Capacidade inválida. Digite novamente.");
                 }
                 else break;
-            } while (capacidade <= 0);
+            } while (capacidade <= 0 );
 
             Console.WriteLine("Informe o número da mesa:");
             int numero;
