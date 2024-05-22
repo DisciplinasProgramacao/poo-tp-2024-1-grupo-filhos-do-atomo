@@ -31,6 +31,10 @@ namespace RestauranteAtomo.model
         /// Representa se a requisição ja foi atendida ou não
         /// </summary>
         private bool atendida;
+        /// <summary>
+        /// Lista que pode conter objetos do tipo Produto.
+        /// </summary>
+        private List<Produto> produtos;
 
         #endregion
 
@@ -45,6 +49,7 @@ namespace RestauranteAtomo.model
         public Requisicao(int quantLugares)
         {
             this.quantLugares = quantLugares;
+            this.produtos = new List<Produto>();
             atendida = false;
             chegada = DateTime.Now;
         }
@@ -104,6 +109,41 @@ namespace RestauranteAtomo.model
         public void registrarHoraSaida()
         {
             saida = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Adiciona um novo produto à lista 'produtos'
+        /// </summary>
+        /// <param name="produto">Produto passado como parâmetro</param>
+        public void adicionarProduto(Produto produto)
+        {
+            produtos.Add(produto);
+        }
+
+        /// <summary>
+        /// Finalizar o pedido de uma mesa, 
+        /// calcular o total da conta com a taxa de serviço e dividir o valor igualmente entre os clientes.
+        /// </summary>
+        public void fecharConta()
+        {
+            registrarHoraSaida();
+            double total = CalcularTotal();
+            double totalComServico = total * 1.10;
+            double valorPorCliente = totalComServico / quantLugares;
+
+            Console.WriteLine("Conta fechada:");
+            Console.WriteLine($"Total: R$ {total:F2}");
+            Console.WriteLine($"Total com serviço (10%): R$ {totalComServico:F2}");
+            Console.WriteLine($"Valor por cliente: R$ {valorPorCliente:F2}");
+        }
+
+        /// <summary>
+        /// Soma o preço de todos os produtos na lista para calcular o total.
+        /// </summary>
+        /// <returns>Retorna o valor total</returns>
+        private double CalcularTotal()
+        {
+            return produtos.Sum(p => p.Preco);
         }
         #endregion
     }
