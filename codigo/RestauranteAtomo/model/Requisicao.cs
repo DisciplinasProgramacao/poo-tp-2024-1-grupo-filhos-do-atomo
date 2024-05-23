@@ -99,6 +99,7 @@ namespace RestauranteAtomo.model
                 this.mesa = mesa;
                 atendida = true;
                 this.mesa.Ocupar();
+                pedido = new Pedido();
 
         }
 

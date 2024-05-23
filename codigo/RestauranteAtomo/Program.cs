@@ -23,6 +23,8 @@ namespace RestauranteAtomo
             sb.AppendLine("2) Atender cliente");            
             sb.AppendLine("3) Adicionar mesa ao Restaurante");
             sb.AppendLine("4) Finalizar requisição do cliente");
+            sb.AppendLine("5) Atender Solicitação de item do cardápio");
+            sb.AppendLine("6) Fechar conta");
             sb.AppendLine("0) Sair do programa");
 
             return sb.ToString();
@@ -182,6 +184,35 @@ namespace RestauranteAtomo
         }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cliente"></param>
+        public static void atenderSolicitacaoItem(Cliente cliente){
+            Console.WriteLine(restaurante.exibeCardapio());
+            Console.WriteLine("Informe o código do item solicitado: ");
+            string codigoEscolhido = Console.ReadLine();
+            restaurante.atenderSolicitacaoItem(codigoEscolhido, cliente.Requisicao);
+            Console.WriteLine("Produto adicionado à requisição do cliente " + cliente.Nome);
+        }
+
+        public static void fecharExibirConta(Cliente cliente){
+            Requisicao requisicao = cliente.Requisicao;
+            double total = requisicao.fecharConta();
+            double totalPorPessoa = requisicao.valorPorCliente();
+
+            Console.WriteLine('----TOTAL CONTA-----');
+            Console.WriteLine("R$" + total);
+            Console.WriteLine("---- TOTAL POR PESSOA----:");
+            Console.WriteLine("R$" + totalPorPessoa);
+            Console.WriteLine("----ITENS DO PEDIDO----");
+            Console.WriteLine("R$" + requisicao.Pedido.resumoPedido());
+        }
+
+        public static bool isClienteFinalizavel(Cliente cliente){
+            return cliente != null && cliente.Requisicao != null && cliente.Requisicao.foiAtendida();
+        }
+
         static void Main(string[] args)
         {
             Console.Clear();
@@ -232,10 +263,24 @@ namespace RestauranteAtomo
                         espera();
                         break;
                     case 4:
-                        Cliente cliente = iniciarBuscaCliente();
-                        if (cliente != null && cliente.Requisicao != null && cliente.Requisicao.foiAtendida()) 
-                            finalizarRequisicao(cliente);
+                        Cliente c1 = iniciarBuscaCliente();
+                        if (isClienteFinalizavel(c1))
+                            finalizarRequisicao(c1);
                         else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
+                        espera();
+                        break;
+                    case 5:
+                        Cliente c2 = iniciarBuscaCliente();
+                        if (isClienteFinalizavel(c2)){
+                            atenderSolicitacaoItem(c2);
+                         }else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
+                        espera();
+                        break;
+                    case 6:
+                         Cliente c3 = iniciarBuscaCliente();
+                         if (isClienteFinalizavel(c3)) {
+                            fecharExibirConta(c3);
+                         }else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
                         espera();
                         break;
                     case 0:
