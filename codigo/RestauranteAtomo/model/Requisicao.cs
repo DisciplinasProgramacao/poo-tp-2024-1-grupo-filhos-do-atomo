@@ -34,7 +34,7 @@ namespace RestauranteAtomo.model
         /// <summary>
         /// Representa o produto da requisição
         /// </summary>
-        private Produto produto;
+        private Pedido pedido;
 
         #endregion
 
