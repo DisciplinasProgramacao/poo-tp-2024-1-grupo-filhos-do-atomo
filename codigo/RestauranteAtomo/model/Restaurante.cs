@@ -128,7 +128,102 @@ namespace RestauranteAtomo.model
             requisicao.registrarHoraSaida();
             requisicao.Mesa.Liberar();
         }
-        
+
         #endregion /* Fim Metodo Publicos */;
+
+
+
+        /// <summary>
+        /// Permite ao cliente solicitar um item do cardápio e adicioná-lo à sua requisição.
+        /// </summary>
+        /// <param name="codigoProduto">Código único do produto no cardápio</param>
+        /// <param name="requisicao">Requisição do cliente que está fazendo o pedido</param>
+        public void AtenderSolicitacaoItem(string codigoProduto, Requisicao requisicao)
+        {
+            // 1. Obter o produto do cardápio com base no código fornecido
+            Produto produto = ObterProdutoDoCardapio(codigoProduto);
+
+            // 2. Verificar se o produto existe no cardápio
+            if (produto != null)
+            {
+                // 3. Adicionar o produto à requisição do cliente
+                requisicao.AdicionarItemPedido(produto);
+            }
+            else
+            {
+                // 4. Tratar o erro de produto não encontrado (opcional)
+                Console.WriteLine("O produto Desejado Não existe..");
+            }
+        }
+
+        /// <summary>
+        /// Exibe o conteúdo do cardápio para o cliente.
+        /// </summary>
+        /// <returns>String contendo a lista de pratos e bebidas do cardápio</returns>
+        public string ExibirCardapio()
+        {
+            StringBuilder cardapioTexto = new StringBuilder();
+
+            // 1. Adicionar título do cardápio
+            cardapioTexto.AppendLine("**Restaurante Atomo - Cardápio**");
+
+            // 2. Adicionar seção de pratos
+            cardapioTexto.AppendLine("\n**Pratos:**");
+            foreach (Prato prato in _cardapio.ObterPratos())
+            {
+                cardapioTexto.AppendLine($"Código: {prato.Id} - Nome: {prato.Nome} - Preço: R${prato.Preco}");
+            }
+
+            // 3. Adicionar seção de bebidas
+            cardapioTexto.AppendLine("\n**Bebidas:**");
+            foreach (Bebida bebida in _cardapio.ObterBebidas())
+            {
+                cardapioTexto.AppendLine($"Código: {bebida.Id} - Nome: {bebida.Nome} - Preço: R${bebida.Preco}");
+            }
+
+            return cardapioTexto.ToString();
+        }
+
+
+
+        /// <summary>
+        /// Obtém um produto do cardápio com base no código fornecido.
+        /// </summary>
+        /// <param name="codigoProduto">Código único do produto no cardápio</param>
+        /// <returns>Instância do `Produto` encontrado ou `null` se não encontrado</returns>
+        private Produto ObterProdutoDoCardapio(string codigoProduto)
+        {
+            try
+            {
+                int idProduto = int.Parse(codigoProduto); // Tentar converter o código para inteiro
+                Prato pratoBuscado = _cardapio.ObterPratoPorId(idProduto);
+                Bebida bebidaBuscada = _cardapio.ObterBebidaPorId(idProduto);
+
+                if (pratoBuscado != null)
+                {
+                    return pratoBuscado;
+                }
+                else if (bebidaBuscada != null)
+                {
+                    return bebidaBuscada;
+                }
+                else
+                {
+                    return null; // Produto não encontrado
+                }
+            }
+            catch (FormatException) // Erro na conversão do código para inteiro
+            {
+                // Tratar o erro de formato de código (opcional)
+                Console.WriteLine("Codigo Inválido");
+                return null;
+            }
+        }
+
+
     }
 }
+
+
+
+
