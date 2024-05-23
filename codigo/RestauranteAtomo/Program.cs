@@ -90,7 +90,7 @@ namespace RestauranteAtomo
         /// imediatamente após o cadastro de um cliente
         /// </summary>
         private static bool deveIniciarAtendimento(){
-            Console.WriteLine("Deseja iniciar o atendimento ? ");
+            Console.WriteLine("Deseja iniciar o atendimento ? Responda sim ou não ");
             string pattern = "sim|n[ã|a]o";
             bool respostaValida;
             string resposta;
@@ -201,7 +201,7 @@ namespace RestauranteAtomo
                             clientes.Add(novoCliente);
                             Console.WriteLine(novoCliente);
 
-                            if(deveIniciarAtendimento())
+                            if(restaurante.Mesas.Count > 0 && deveIniciarAtendimento())
                                 iniciarAtendimento(novoCliente);
                         }else{ 
                             Console.WriteLine("Cliente não registrado. Informações não preenchidas corretamente:");
@@ -227,7 +227,7 @@ namespace RestauranteAtomo
                         adicionarMesa();
                         foreach(Mesa mesa in restaurante.Mesas)
                         {
-                            Console.WriteLine(mesa);
+                            Console.WriteLine("\nMesa " + mesa.Numero + " cadastrada: capacidade para " + mesa.Capacidade + " pessoas.");
                         }
                         break;
                     case 4:

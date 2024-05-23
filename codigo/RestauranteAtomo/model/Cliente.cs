@@ -18,13 +18,11 @@ namespace RestauranteAtomo.model
     public string Nome
     {
       get { return nome; }
-      set { nome = value; }
     }
 
     public string Contato
     {
       get { return contato;}
-      set { contato = value; }
     }
 
     public Requisicao Requisicao
@@ -40,9 +38,10 @@ namespace RestauranteAtomo.model
     /// especificada
     /// </summary>
     /// <param name="quantidadePessoas"></param>
-    public void fazerRequisicao(int quantidadePessoas)
+    public Requisicao fazerRequisicao(int quantidadePessoas)
     {
       requisicao = new Requisicao(quantidadePessoas);
+      return requisicao;
     }    
     
     public override string ToString(){
