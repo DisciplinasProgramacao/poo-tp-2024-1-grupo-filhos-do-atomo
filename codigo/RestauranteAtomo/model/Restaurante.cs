@@ -16,7 +16,6 @@ namespace RestauranteAtomo.model
         private Queue<Requisicao> _filaDeEspera;
         private int _id;
 
-
         /// <summary>
         /// Construtor da classe restaurante
         /// </summary>
@@ -27,6 +26,7 @@ namespace RestauranteAtomo.model
             _mesas = new List<Mesa>();
             _filaDeEspera = new Queue<Requisicao>();
         }
+
         internal List<Mesa> Mesas { get => _mesas;}
         
         #endregion /* Fim Atributos */;
@@ -89,8 +89,8 @@ namespace RestauranteAtomo.model
         /// <param name="quantPessoas">Quantidade de pessoas na mesa</param>
         public bool atenderCliente(Cliente cliente, int quantPessoas) 
         {
-            cliente.fazerRequisicao(quantPessoas);
-            return realizarAlocacaoMesa(cliente.Requisicao);
+            Requisicao requisicao = cliente.fazerRequisicao(quantPessoas);
+            return realizarAlocacaoMesa(requisicao);
             
         }
         /// <summary>
@@ -106,14 +106,18 @@ namespace RestauranteAtomo.model
         /// </summary>
         public bool atenderProximoFilaEspera() 
         { 
-            Requisicao atenderFila = _filaDeEspera.Peek();
-            bool atendida = realizarAlocacaoMesa(atenderFila);
-            if (atendida)
+            bool retiradaFilaEspera = false;
+            if(_filaDeEspera.Count > 0)
             {
-                 _filaDeEspera.Dequeue();
-                return true;
+                Requisicao atenderFila = _filaDeEspera.Peek();
+                bool atendida = realizarAlocacaoMesa(atenderFila);
+                if (atendida)
+                {
+                    _filaDeEspera.Dequeue();
+                    retiradaFilaEspera = true;
+                }
             }
-            return false;
+            return retiradaFilaEspera;
         }
         /// <summary>
         /// Metodo para finalizar a requisicao do cliente

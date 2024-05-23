@@ -40,13 +40,14 @@ namespace RestauranteAtomo.model
     /// especificada
     /// </summary>
     /// <param name="quantidadePessoas"></param>
-    public void fazerRequisicao(int quantidadePessoas)
+    public Requisicao fazerRequisicao(int quantidadePessoas)
     {
       requisicao = new Requisicao(quantidadePessoas);
+      return requisicao;
     }    
     
-    public override string ToString(){
-      return "Nome: " + this.nome + "; Contato: " + this.contato + "; " + (requisicao != null ? requisicao.ToString() : "Sem reserva pendente");
+    public override string ToString(){  
+      return "Nome: " + this.nome + "; Contato: " + this.contato + "; " + (requisicao != null ? requisicao.ToString() + ": " : "Sem reserva pendente");
     }
     #endregion
   }
