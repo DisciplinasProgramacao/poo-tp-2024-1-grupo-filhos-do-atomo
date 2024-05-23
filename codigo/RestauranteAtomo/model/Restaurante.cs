@@ -147,7 +147,7 @@ namespace RestauranteAtomo.model
             if (produto != null)
             {
                 // 3. Adicionar o produto à requisição do cliente
-                requisicao.AdicionarItemPedido(produto);
+                requisicao.receberItemSolicitado(produto);
             }
             else
             {
