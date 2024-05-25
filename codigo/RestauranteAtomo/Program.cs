@@ -76,10 +76,12 @@ namespace RestauranteAtomo
 
             if(atendido)
             {
-                Console.WriteLine("Reserva atendida ! :");
-                Console.WriteLine(cliente.ToString());
+                Requisicao requisicao = restaurante.findRequisicaoAtendidaCliente(cliente);
+                if(requisicao != null){
+                    Console.WriteLine("Requisição atendida :");
+                    Console.WriteLine(cliente.ToString() + " - " + requisicao.ToString());
+                }
             }else{
-                restaurante.adicionarFilaEspera(cliente.Requisicao);
                 Console.WriteLine("A requisição do cliente " + cliente.Nome + " entrou na fila de espera !");
             }
         }
@@ -123,7 +125,7 @@ namespace RestauranteAtomo
         private static void espera()
         {
             Console.WriteLine("\nDigite qualquer tecla para retornar ao menu!");
-            Console.ReadKey();
+            Console.ReadLine();
         }
 
         // Hayanne
@@ -134,14 +136,22 @@ namespace RestauranteAtomo
         /// <returns></returns>
         public static void finalizarRequisicao(Cliente cliente)
         {
-            restaurante.finalizarRequisicao(cliente.Requisicao);
-            Console.WriteLine("A seguinte requisição foi encerrada: ");
-            Console.WriteLine(cliente.ToString());
+            Requisicao requisicao = restaurante.findRequisicaoAtendidaCliente(cliente);
+            
+            if(requisicao != null){
 
-            bool requisicaoAtendida = restaurante.atenderProximoFilaEspera();
-            if(requisicaoAtendida)
-            {
-                Console.WriteLine("Lista de espera atualizada! ");
+                restaurante.finalizarRequisicao(requisicao);
+                Console.WriteLine("Requisição finalizada: Mesa : " + requisicao.Mesa.Numero 
+                + " de capacidade " + requisicao.Mesa.Capacidade + " liberada.");
+                bool atendida = restaurante.atenderProximoFilaEspera();
+
+                if(atendida)
+                {
+                    Console.WriteLine("Lista de espera atualizada! ");
+                    Console.WriteLine(restaurante.exibirListaRequisicoes());
+                }
+            }else{
+                Console.WriteLine("O cliente " + cliente.ToString() + " não possui requisições passíveis de finalização");
             }
         }
 
@@ -204,7 +214,6 @@ namespace RestauranteAtomo
                             if(restaurante.Mesas.Count > 0 && deveIniciarAtendimento())
                                 iniciarAtendimento(novoCliente);
                         }else{ 
-                            Console.WriteLine("Cliente não registrado. Informações não preenchidas corretamente:");
                             foreach(string erro in erros)
                                 Console.WriteLine(erro + "\n");
                         }
@@ -215,27 +224,27 @@ namespace RestauranteAtomo
                         {    
                             Console.WriteLine("Não há mesas no restaurante. Utilize a opção 3 para adicionar mesas !");
                         }else{
-                            Cliente c = iniciarBuscaCliente();                  
-                            if(c != null)
+                            Cliente c = iniciarBuscaCliente();      
+                            if(c != null && restaurante.findRequisicaoAtendidaCliente(c) == null && restaurante.findRequisicaoNaoAtendidaCliente(c) == null)
                                 iniciarAtendimento(c);
-                            else
-                                Console.WriteLine("Cliente não encontrado. Favor tentar novamente !\n");
+                            else{
+                                string mensagem = "Cliente não ou encontrado ou cliente já possui requisição pendente.\n";
+                                mensagem += "Para cadastrar nova requisição, a requisição existente deve ser finalizada primeiro !";
+                                Console.WriteLine(mensagem);
+                            }
                         }
                         espera();                    
                         break;
                     case 3:
                         adicionarMesa();
-                        foreach(Mesa mesa in restaurante.Mesas)
-                        {
-                            Console.WriteLine("\nMesa " + mesa.Numero + ": capacidade para " + mesa.Capacidade + " pessoas.");
-                        }
+                        Console.WriteLine(restaurante.exibirMesas());
                         espera();
                         break;
                     case 4:
                         Cliente cliente = iniciarBuscaCliente();
-                        if (cliente != null && cliente.Requisicao != null && cliente.Requisicao.foiAtendida()) 
+                        if(cliente != null)
                             finalizarRequisicao(cliente);
-                        else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
+                        else Console.WriteLine("Cliente não encontrado. Favor tentar novamente! \n");
                         espera();
                         break;
                     case 0:

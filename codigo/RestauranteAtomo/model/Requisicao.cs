@@ -32,6 +32,16 @@ namespace RestauranteAtomo.model
         /// </summary>
         private bool atendida;
 
+        private Cliente cliente;
+
+        public Cliente MeuCliente{
+            get {return cliente;}
+        }
+
+        public DateTime Saida {
+            get {return saida;}
+        }
+
         #endregion
 
 
@@ -42,8 +52,9 @@ namespace RestauranteAtomo.model
         ///  Cria a requisição a partir de uma certa quantidade de lugares escolhido
         /// </summary>
         /// <param name="quantLugares"></param>
-        public Requisicao(int quantLugares)
+        public Requisicao(Cliente cliente, int quantLugares)
         {
+            this.cliente = cliente;
             this.quantLugares = quantLugares;
             atendida = false;
             chegada = DateTime.Now;
