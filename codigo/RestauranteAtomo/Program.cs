@@ -72,17 +72,26 @@ namespace RestauranteAtomo
                     Console.WriteLine("Quantidade de pessoas deve ser maior que 0. Digite novamente");
                 }
             }while (quantidadePessoas <= 0);
-            
-            bool atendido = restaurante.atenderCliente(cliente, quantidadePessoas);
-
-            if(atendido)
+            if (!cliente.Requisicao.foiAtendida())
             {
-                Console.WriteLine("Dados da reserva atendida :");
-                Console.WriteLine(cliente.ToString());
-            }else{
-                restaurante.adicionarFilaEspera(cliente.Requisicao);
-                Console.WriteLine("A requisição do cliente " + cliente.Nome + " entrou na fila de espera !");
+                bool atendido = restaurante.atenderCliente(cliente, quantidadePessoas);
+
+                if (atendido)
+                {
+                    Console.WriteLine("Dados da reserva atendida :");
+                    Console.WriteLine(cliente.ToString());
+                }
+                else
+                {
+                    restaurante.adicionarFilaEspera(cliente.Requisicao);
+                    Console.WriteLine("A requisição do cliente " + cliente.Nome + " entrou na fila de espera !");
+                }
             }
+            else
+            {
+                Console.WriteLine("Reserva já atendida!");
+            }
+           
         }
 
         /// <summary>
