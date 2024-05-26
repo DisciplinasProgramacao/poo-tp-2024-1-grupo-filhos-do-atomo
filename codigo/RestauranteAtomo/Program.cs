@@ -1,5 +1,4 @@
 ﻿using RestauranteAtomo.model;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -203,20 +202,24 @@ namespace RestauranteAtomo
             Console.WriteLine(restaurante.exibeCardapio());
             Console.WriteLine("Informe o código do item solicitado: ");
             string codigoEscolhido = Console.ReadLine();
-            restaurante.atenderSolicitacaoItem(codigoEscolhido, cliente.Requisicao);
-            Console.WriteLine("Produto adicionado à requisição do cliente " + cliente.Nome);
+
+            Requisicao requisicaoAtualCliente = restaurante.findRequisicaoAtendidaCliente(cliente);
+            
+            if(requisicaoAtualCliente != null){
+                restaurante.AtenderSolicitacaoItem(codigoEscolhido, requisicaoAtualCliente);
+            }
         }
 
         public static void fecharExibirConta(Cliente cliente){
-            Requisicao requisicao = cliente.Requisicao;
-            double total = requisicao.fecharConta();
+            Requisicao requisicao = restaurante.findRequisicaoAtendidaCliente(cliente);
+            double total = requisicao.Pedido.ValorTotal;
             double totalPorPessoa = requisicao.valorPorCliente();
 
-            Console.WriteLine('----TOTAL CONTA-----');
+            Console.WriteLine('\n----TOTAL CONTA-----');
             Console.WriteLine("R$" + total);
-            Console.WriteLine("---- TOTAL POR PESSOA----:");
+            Console.WriteLine("\n---- TOTAL POR PESSOA----:");
             Console.WriteLine("R$" + totalPorPessoa);
-            Console.WriteLine("----ITENS DO PEDIDO----");
+            Console.WriteLine("\n----ITENS DO PEDIDO----");
             Console.WriteLine("R$" + requisicao.Pedido.resumoPedido());
         }
 
@@ -284,7 +287,7 @@ namespace RestauranteAtomo
                         break;
                     case 6:
                          Cliente c3 = iniciarBuscaCliente();
-                         if (iniciarBuscaCliente() != null) {
+                         if (c3 != null) {
                             fecharExibirConta(c3);
                          }else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
                         espera();
