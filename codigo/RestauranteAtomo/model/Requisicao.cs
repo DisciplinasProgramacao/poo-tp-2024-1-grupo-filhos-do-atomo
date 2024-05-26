@@ -38,12 +38,7 @@ namespace RestauranteAtomo.model
             get {return cliente;}
         }
 
-        public DateTime Saida {
-            get {return saida;}
-        }
-
         #endregion
-
 
 
         #region Constructor

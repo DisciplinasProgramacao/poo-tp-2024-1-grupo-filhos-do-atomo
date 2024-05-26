@@ -8,7 +8,6 @@ namespace RestauranteAtomo.model
     private string nome;
     private string contato;
     private int id;
-    // private Requisicao requisicao;
 
     public Cliente(string nome, string contato)
     {
@@ -31,24 +30,9 @@ namespace RestauranteAtomo.model
       set { contato = value; }
     }
 
-    // public Requisicao Requisicao
-    // {
-    //   get { return requisicao;}
-    // }
     #endregion
 
     #region metodos
-
-    // /// <summary>
-    // /// cria uma nova requisicao com a quantidade de pessoas
-    // /// especificada
-    // /// </summary>
-    // /// <param name="quantidadePessoas"></param>
-    // public Requisicao fazerRequisicao(int quantidadePessoas)
-    // {
-    //   return new Requisicao(this, quantidadePessoas);
-    //   // return requisicao;
-    // }    
 
     public override string ToString()
     {
@@ -59,7 +43,6 @@ namespace RestauranteAtomo.model
     public override bool Equals(Object ob)
     {
       Cliente cliente = (Cliente) ob;
-      // return this.nome == cliente.nome && this.contato == cliente.contato;
       return this.id == cliente.id;
     }
   }

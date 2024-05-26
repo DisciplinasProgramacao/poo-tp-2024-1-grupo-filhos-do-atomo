@@ -58,7 +58,7 @@ namespace RestauranteAtomo.model
         {
             List<Mesa> mesasLivres = buscarMesasLivres();
         
-            foreach(Mesa mesa in Mesas)
+            foreach(Mesa mesa in mesasLivres)
             {
                 if (mesa.ValidaAlocacao(requisicao.QuantLugares))
                 {
@@ -110,7 +110,6 @@ namespace RestauranteAtomo.model
         /// <param name="requisicao">requisicao feita pelo cliente</param>(
         public void adicionarFilaEspera(Requisicao requisicao) 
         { 
-            // _filaDeEspera[getKey(requisicao.QuantLugares)].Enqueue(requisicao);
             _filaDeEspera.Add(requisicao);
         }
 
@@ -119,7 +118,6 @@ namespace RestauranteAtomo.model
         /// </summary>
         public bool atenderProximoFilaEspera() 
         { 
-
             bool atendida = false;
             int posicao = -1;
             Requisicao proxima = null;
@@ -147,15 +145,11 @@ namespace RestauranteAtomo.model
             requisicao.Mesa.Liberar();
         }
 
-        public Requisicao? findRequisicaoAtendidaCliente(Cliente cliente){
+        public Requisicao findRequisicaoAtendidaCliente(Cliente cliente){
             return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.foiAtendida() && r.Mesa.Ocupada);
         }
-        
-        // public Requisicao? findRequisicaoFinalizadaCliente(Cliente cliente){
-        //     return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.foiAtendida() && r.Mesa.Ocupada);
-        // }
 
-        public Requisicao? findRequisicaoNaoAtendidaCliente(Cliente cliente){
+        public Requisicao findRequisicaoNaoAtendidaCliente(Cliente cliente){
             return _filaDeEspera.Find(r => r.MeuCliente.Equals(cliente) && !r.foiAtendida());
         }
         

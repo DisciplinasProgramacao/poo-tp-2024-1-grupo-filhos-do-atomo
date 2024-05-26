@@ -125,7 +125,7 @@ namespace RestauranteAtomo
         private static void espera()
         {
             Console.WriteLine("\nDigite qualquer tecla para retornar ao menu!");
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         // Hayanne
