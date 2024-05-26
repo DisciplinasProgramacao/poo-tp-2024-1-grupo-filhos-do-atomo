@@ -31,6 +31,10 @@ namespace RestauranteAtomo.model
         /// Representa se a requisição ja foi atendida ou não
         /// </summary>
         private bool atendida;
+        /// <summary>
+        /// Representa o produto da requisição
+        /// </summary>
+        private Pedido pedido;
 
         #endregion
 
@@ -95,6 +99,7 @@ namespace RestauranteAtomo.model
                 this.mesa = mesa;
                 atendida = true;
                 this.mesa.Ocupar();
+                pedido = new Pedido();
 
         }
 
@@ -104,6 +109,39 @@ namespace RestauranteAtomo.model
         public void registrarHoraSaida()
         {
             saida = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Cria uma variável double que recebe o total do pedido chamndo o método de fecharConta(),
+        /// faz a divisão do total do pediod para o total de pessoas na mesa.
+        /// </summary>
+        /// <returns>Retorna o valor a ser pago por cada cliente</returns>
+        public double valorPorCliente()
+        {
+            double total = fecharConta();
+            double valorPorCliente = total / quantLugares;
+            return valorPorCliente;
+        }
+
+        /// <summary>
+        /// É chamado o método da classe Pedido que calcular o total do pedido, 
+        /// chama o método de fechar a conta e retorna o total.
+        /// </summary>
+        /// <returns>Retorna o total do pedido</returns>
+        public double fecharConta()
+        {
+            double total = pedido.CalcularValorTotal();
+            pedido.fechar();
+            return total;
+        }        
+
+        /// <summary>
+        /// Recebe o produto da classe Produto
+        /// </summary>
+        /// <param name="produto">produto dado como parâmetro para ser adicionado</param>
+        public void receberItemSolicitado(Produto produto)
+        {
+            pedido.adicionarItem(produto);
         }
         #endregion
     }
