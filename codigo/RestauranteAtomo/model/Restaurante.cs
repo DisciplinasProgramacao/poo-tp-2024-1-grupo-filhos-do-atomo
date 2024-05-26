@@ -12,9 +12,11 @@ namespace RestauranteAtomo.model
         
         
         private const int _maxMesas = 10;
+
         private List<Mesa> _mesas;
-        private Queue<Requisicao> _filaDeEspera;
+        private List<Requisicao> _filaDeEspera;
         private int _id;
+        private List<Requisicao> historicoRequisicoes;
 
         /// <summary>
         /// Construtor da classe restaurante
@@ -24,7 +26,8 @@ namespace RestauranteAtomo.model
         {
             _id = id;
             _mesas = new List<Mesa>();
-            _filaDeEspera = new Queue<Requisicao>();
+            _filaDeEspera = new List<Requisicao>();
+            historicoRequisicoes = new List<Requisicao>();
         }
 
         internal List<Mesa> Mesas { get => _mesas;}
@@ -46,6 +49,7 @@ namespace RestauranteAtomo.model
             }
             return mesasLivres;
         }
+        
         /// <summary>
         /// Metodo para realizar a alocacao do cliente a uma mesa ou fila de espera
         /// </summary>
@@ -82,6 +86,7 @@ namespace RestauranteAtomo.model
                 _mesas.Add(mesa);
             }
         }
+        
         /// <summary>
         /// Atende a requisicao feita pelo cliente
         /// </summary>
@@ -89,36 +94,47 @@ namespace RestauranteAtomo.model
         /// <param name="quantPessoas">Quantidade de pessoas na mesa</param>
         public bool atenderCliente(Cliente cliente, int quantPessoas) 
         {
-            Requisicao requisicao = cliente.fazerRequisicao(quantPessoas);
-            return realizarAlocacaoMesa(requisicao);
-            
+            Requisicao requisicao = new Requisicao(cliente, quantPessoas);
+            bool atendido = realizarAlocacaoMesa(requisicao);
+            if(atendido){
+                historicoRequisicoes.Add(requisicao);
+            }else{
+                adicionarFilaEspera(requisicao);
+            }
+            return atendido;
         }
+
         /// <summary>
         /// Metodo para adicionar a requisicao a uma fila de espera
         /// </summary>
-        /// <param name="requisicao">requisicao feita pelo cliente</param>
+        /// <param name="requisicao">requisicao feita pelo cliente</param>(
         public void adicionarFilaEspera(Requisicao requisicao) 
         { 
-            _filaDeEspera.Enqueue(requisicao);
+            _filaDeEspera.Add(requisicao);
         }
+
         /// <summary>
         /// Metodo para remover a requisicao atendida da fila de espera
         /// </summary>
         public bool atenderProximoFilaEspera() 
         { 
-            bool retiradaFilaEspera = false;
-            if(_filaDeEspera.Count > 0)
-            {
-                Requisicao atenderFila = _filaDeEspera.Peek();
-                bool atendida = realizarAlocacaoMesa(atenderFila);
-                if (atendida)
-                {
-                    _filaDeEspera.Dequeue();
-                    retiradaFilaEspera = true;
-                }
+            bool atendida = false;
+            int posicao = -1;
+            Requisicao proxima = null;
+            for(int i = 0; i < _filaDeEspera.Count && atendida == false; i++){
+                proxima = _filaDeEspera[i];
+                atendida = realizarAlocacaoMesa(_filaDeEspera[i]);
+                posicao = i;
             }
-            return retiradaFilaEspera;
+
+            if(atendida && proxima != null){
+                _filaDeEspera.RemoveAt(posicao);
+                historicoRequisicoes.Add(proxima);
+            }
+
+            return atendida;
         }
+
         /// <summary>
         /// Metodo para finalizar a requisicao do cliente
         /// </summary>
@@ -129,8 +145,37 @@ namespace RestauranteAtomo.model
             requisicao.Mesa.Liberar();
         }
 
-        #endregion /* Fim Metodo Publicos */;
 
+        public Requisicao findRequisicaoAtendidaCliente(Cliente cliente){
+            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.foiAtendida() && r.Mesa.Ocupada);
+        }
+
+        public Requisicao findRequisicaoNaoAtendidaCliente(Cliente cliente){
+            return _filaDeEspera.Find(r => r.MeuCliente.Equals(cliente) && !r.foiAtendida());
+        }
+        
+        public String exibirMesas(){ 
+            StringBuilder descMesas = new StringBuilder();
+            foreach(Mesa mesa in _mesas)
+            {
+                descMesas.AppendLine("\nMesa " + mesa.Numero + ": capacidade para " + mesa.Capacidade + " pessoas.");
+            }
+            return descMesas.ToString();
+        }
+
+        public String exibirListaRequisicoes(){
+            StringBuilder descEspera = new StringBuilder("\n----Fila de Espera----\n");
+            foreach(Requisicao req in _filaDeEspera){
+                descEspera.AppendLine(req.MeuCliente.Nome + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
+            }
+
+            descEspera.AppendLine("\n----Histórico de Requisições Atendidas----");
+            foreach(Requisicao req in historicoRequisicoes){
+                descEspera.AppendLine(req.MeuCliente.Nome + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
+            }
+
+            return descEspera.ToString();
+        }
 
 
         /// <summary>
@@ -219,8 +264,7 @@ namespace RestauranteAtomo.model
                 return null;
             }
         }
-
-
+        #endregion /* Fim Metodo Publicos */;
     }
 }
 

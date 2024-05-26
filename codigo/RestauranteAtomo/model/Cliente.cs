@@ -2,15 +2,18 @@ namespace RestauranteAtomo.model
 {
   internal class Cliente
   {
+    static int ultimo_id = 0;
+
     #region atributos
     private string nome;
     private string contato;
-    private Requisicao requisicao;
+    private int id;
 
     public Cliente(string nome, string contato)
     {
       this.nome = nome;
       this.contato = contato;
+      this.id = ultimo_id++;
     }
     #endregion
 
@@ -23,32 +26,24 @@ namespace RestauranteAtomo.model
 
     public string Contato
     {
-      get { return contato;}
+      get { return contato; }
       set { contato = value; }
     }
 
-    public Requisicao Requisicao
-    {
-      get { return requisicao;}
-    }
     #endregion
 
     #region metodos
-    
-    /// <summary>
-    /// cria uma nova requisicao com a quantidade de pessoas
-    /// especificada
-    /// </summary>
-    /// <param name="quantidadePessoas"></param>
-    public Requisicao fazerRequisicao(int quantidadePessoas)
+
+    public override string ToString()
     {
-      requisicao = new Requisicao(quantidadePessoas);
-      return requisicao;
-    }    
-    
-    public override string ToString(){  
-      return "Nome: " + this.nome + "; Contato: " + this.contato + "; " + (requisicao != null ? requisicao.ToString() + ": " : "Sem reserva pendente");
+      return "Nome: " + this.nome + "; Contato: " + this.contato;
     }
     #endregion
+
+    public override bool Equals(Object ob)
+    {
+      Cliente cliente = (Cliente) ob;
+      return this.id == cliente.id;
+    }
   }
 }
