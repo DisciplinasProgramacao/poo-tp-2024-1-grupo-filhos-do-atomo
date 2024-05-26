@@ -212,7 +212,7 @@ namespace RestauranteAtomo
 
         public static void fecharExibirConta(Cliente cliente){
             Requisicao requisicao = restaurante.findRequisicaoAtendidaCliente(cliente);
-            double total = requisicao.Pedido.ValorTotal;
+            double total = requisicao.Pedido.Total;
             double totalPorPessoa = requisicao.valorPorCliente();
 
             Console.WriteLine('\n----TOTAL CONTA-----');

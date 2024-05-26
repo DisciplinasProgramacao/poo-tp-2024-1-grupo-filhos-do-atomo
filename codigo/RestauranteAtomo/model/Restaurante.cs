@@ -147,7 +147,7 @@ namespace RestauranteAtomo.model
 
 
         public Requisicao findRequisicaoAtendidaCliente(Cliente cliente){
-            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.foiAtendida() && r.Mesa.Ocupada);
+            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.foiAtendida() && r.Pedido.Aberto);
         }
 
         public Requisicao findRequisicaoNaoAtendidaCliente(Cliente cliente){
