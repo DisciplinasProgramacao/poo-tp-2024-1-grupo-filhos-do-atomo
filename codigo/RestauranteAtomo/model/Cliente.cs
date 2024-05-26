@@ -2,7 +2,7 @@ namespace RestauranteAtomo.model
 {
   internal class Cliente
   {
-    static int ultimo_id = 0;
+    static int ultimo_id = 1;
 
     #region atributos
     private string nome;
@@ -21,13 +21,11 @@ namespace RestauranteAtomo.model
     public string Nome
     {
       get { return nome; }
-      set { nome = value; }
     }
 
     public string Contato
     {
       get { return contato; }
-      set { contato = value; }
     }
 
     #endregion
