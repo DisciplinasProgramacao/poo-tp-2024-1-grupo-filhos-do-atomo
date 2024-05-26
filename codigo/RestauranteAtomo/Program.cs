@@ -1,4 +1,5 @@
 ﻿using RestauranteAtomo.model;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -276,14 +277,14 @@ namespace RestauranteAtomo
                         break;
                     case 5:
                         Cliente c2 = iniciarBuscaCliente();
-                        if (isClienteFinalizavel(c2)){
+                        if (c2 != null){
                             atenderSolicitacaoItem(c2);
                          }else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
                         espera();
                         break;
                     case 6:
                          Cliente c3 = iniciarBuscaCliente();
-                         if (isClienteFinalizavel(c3)) {
+                         if (iniciarBuscaCliente() != null) {
                             fecharExibirConta(c3);
                          }else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
                         espera();
