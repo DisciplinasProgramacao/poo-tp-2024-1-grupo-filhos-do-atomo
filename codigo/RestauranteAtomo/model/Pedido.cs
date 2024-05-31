@@ -30,6 +30,7 @@ namespace RestauranteAtomo.model
         public Pedido() 
         {
             this._itens = new List<Produto>();
+            this._aberto = true;
         }
 
         public double calcularValorTotal()
@@ -56,6 +57,11 @@ namespace RestauranteAtomo.model
             }
             return relatorio.ToString();
 
+        }
+
+        public void Fechar()
+        {
+            this._aberto = false;
         }
 
         #endregion
