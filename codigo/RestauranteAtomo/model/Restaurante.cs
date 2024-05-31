@@ -141,8 +141,7 @@ namespace RestauranteAtomo.model
         /// <param name="requisicao">requisicao feita pelo cliente</param>
         public void finalizarRequisicao(Requisicao requisicao) 
         {
-            requisicao.registrarHoraSaida();
-            requisicao.Mesa.Liberar();
+            requisicao.finalizar();
         }
 
 

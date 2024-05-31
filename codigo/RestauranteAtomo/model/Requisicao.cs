@@ -149,6 +149,34 @@ namespace RestauranteAtomo.model
         {
             pedido.adicionarItem(produto);
         }
+
+        /// <summary>
+        /// Finaliza a requisicao registrando a hora de "saida",
+        /// e liberando a mesa que estava atendendo a prorpria requisicao
+        /// </summary>
+        public void finalizar()
+        {
+            registrarHoraSaida();
+            Mesa.Liberar();
+        }
+
+        /// <summary>
+        /// To String Requisição
+        /// </summary>
+        /// <returns>String descrevendo atributos do metodo</returns>
+        public override string ToString()
+        {
+               return
+               $"Mesa: {mesa}, " +
+               $"Quantidade de Lugares: {quantLugares}, " +
+               $"Chegada: {chegada}, " +
+               $"Atendida: {atendida}, \n" +
+               $"Cliente: {cliente.ToString()}, \n" +
+               $"Pedido: {pedido.ToString()}";
+        }
+
+
+
         #endregion
     }
 }
