@@ -30,6 +30,7 @@ namespace RestauranteAtomo.model
         public Pedido() 
         {
             this._itens = new List<Produto>();
+            this._aberto = true;
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace RestauranteAtomo.model
             {
                 _total += pd.Preco;
             }
-            return _total;
+            return _total*_TAXA_SERVICO;
         }
 
         /// <summary>
