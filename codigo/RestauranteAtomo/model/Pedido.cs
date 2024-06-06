@@ -30,22 +30,35 @@ namespace RestauranteAtomo.model
         public Pedido() 
         {
             this._itens = new List<Produto>();
+            this._aberto = true;
         }
 
+        /// <summary>
+        /// Meetodo para calcular o total da soma dos itens do pediddo
+        /// </summary>
+        /// <returns>Retorna o valor da soma</returns>
         public double calcularValorTotal()
         {
             foreach (Produto pd in _itens)
             {
                 _total += pd.Preco;
             }
-            return _total;
+            return _total*_TAXA_SERVICO;
         }
 
+        /// <summary>
+        /// Adiciona na lista de produtos o item
+        /// </summary>
+        /// <param name="produto">Rebece um parametro do tipo produto</param>
         public void adicionarItem(Produto produto)
         {
             _itens.Add(produto);
         }
 
+        /// <summary>
+        /// Mostra a lista de produtos dentro do pedido
+        /// </summary>
+        /// <returns>Retorna uma string dos dados dos produtos</returns>
         public string resumoPedido()
         {
             StringBuilder relatorio = new StringBuilder("Resumo Pedido: \n");
@@ -56,6 +69,14 @@ namespace RestauranteAtomo.model
             }
             return relatorio.ToString();
 
+        }
+
+        /// <summary>
+        ///  Atualiza o status do pedido.
+        /// </summary>
+        public void fechar()
+        {
+            this._aberto = false;
         }
 
         #endregion
