@@ -74,10 +74,17 @@ namespace RestauranteAtomo.model
         /// </summary>
         private void carregarCardapio()
         {
-            produtos.Add(new Produto("Pizza", 12.00));
-            produtos.Add(new Produto("Burguer", 7.00));
-            produtos.Add(new Produto("Açai", 8.50));
-            produtos.Add(new Produto("Carbonara",20.0));
+            produtos.Add(new Produto("Moqueca de Palmito", 32.00));
+            produtos.Add(new Produto("Falafel Assado", 20.00));
+            produtos.Add(new Produto("Salada Primavera com Macarrão Konjac", 25.00));
+            produtos.Add(new Produto("Escondidinho de Inhame", 18.0));
+            produtos.Add(new Produto("Strogonoff de Cogumelos", 35.0));
+            produtos.Add(new Produto("Caçarola de legumes", 22.0));
+            produtos.Add(new Produto("Água", 3.0));
+            produtos.Add(new Produto("Copo de suco", 7.0));
+            produtos.Add(new Produto("Refrigerante orgânico", 7.0));
+            produtos.Add(new Produto("Cerveja vegana", 9.0));
+            produtos.Add(new Produto("Taça de vinho vegano", 18.0));
         }
 
         #endregion
