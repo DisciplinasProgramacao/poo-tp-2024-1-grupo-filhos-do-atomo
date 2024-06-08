@@ -8,7 +8,6 @@ O objetivo geral do projeto é a análise, modelagem e implementação increment
 * Elvis Fernando Santos Tolentino
 * Hayanne Santos da Silva
 * Miguel Sanches Braga Inácio
-* Pedro Ribeiro Canuto
 * Vitor Lopes Nocce
 
 ## Professores responsáveis
