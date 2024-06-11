@@ -21,10 +21,10 @@ namespace RestauranteAtomo
             sb.AppendLine("\nMenu");
             sb.AppendLine("1) Novo cliente");
             sb.AppendLine("2) Atender cliente");            
-            sb.AppendLine("3) Adicionar mesa ao Restaurante");
-            sb.AppendLine("4) Finalizar requisição do cliente");
-            sb.AppendLine("5) Atender Solicitação de item do cardápio");
-            sb.AppendLine("6) Fechar conta");
+            /*sb.AppendLine("3) Adicionar mesa ao Restaurante");*/
+            sb.AppendLine("3) Finalizar requisição do cliente");
+            sb.AppendLine("4) Atender Solicitação de item do cardápio");
+            sb.AppendLine("5) Fechar conta");
             sb.AppendLine("0) Sair do programa");
 
             return sb.ToString();
@@ -157,7 +157,7 @@ namespace RestauranteAtomo
             }
         }
 
-        /// <summary>
+        /*/// <summary>
         ///  O usuário digitar a capacidade da mesa, o numero da mesa, 
         /// criar o objeto mesa com esses dados e chamar o restaurante.adicionarMesa(mesa).
         /// </summary>
@@ -191,7 +191,7 @@ namespace RestauranteAtomo
 
             Mesa mesa = new Mesa(numero, capacidade, ocupada);
             restaurante.adicionarMesa(mesa);
-        }
+        }*/
         #endregion
 
         /// <summary>
@@ -266,26 +266,26 @@ namespace RestauranteAtomo
                         }
                         espera();                    
                         break;
-                    case 3:
+                   /* case 3:
                         adicionarMesa();
                         Console.WriteLine(restaurante.exibirMesas());
                         espera();
-                        break;
-                    case 4:
+                        break;*/
+                    case 3:
                         Cliente cliente = iniciarBuscaCliente();
                         if(cliente != null)
                             finalizarRequisicao(cliente);
                         else Console.WriteLine("Cliente não encontrado. Favor tentar novamente! \n");
                         espera();
                         break;
-                    case 5:
+                    case 4:
                         Cliente c2 = iniciarBuscaCliente();
                         if (c2 != null){
                             atenderSolicitacaoItem(c2);
                          }else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
                         espera();
                         break;
-                    case 6:
+                    case 5:
                          Cliente c3 = iniciarBuscaCliente();
                          if (c3 != null) {
                             fecharExibirConta(c3);

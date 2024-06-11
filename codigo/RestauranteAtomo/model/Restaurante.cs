@@ -25,7 +25,19 @@ namespace RestauranteAtomo.model
         public Restaurante(int id)
         {
             _id = id;
-            _mesas = new List<Mesa>();
+            _mesas = new List<Mesa>
+        {
+            new Mesa(1, 4,false), 
+            new Mesa(2, 4,false), 
+            new Mesa(3, 4,false), 
+            new Mesa(4, 4,false),
+            new Mesa(5, 6,false), 
+            new Mesa(6, 6,false), 
+            new Mesa(7, 6,false), 
+            new Mesa(8, 6,false),
+            new Mesa(9, 8,false), 
+            new Mesa(10, 8,false)
+        };
             _filaDeEspera = new List<Requisicao>();
             historicoRequisicoes = new List<Requisicao>();
         }
@@ -75,7 +87,7 @@ namespace RestauranteAtomo.model
         #region  /* Métodos Publicos */
         
         
-        /// <summary>
+       /* /// <summary>
         /// Registra uma nova mesa para o restaurante
         /// </summary>
         /// <param name="mesa">Parametro para receber os dados do objeto do tipo mesa</param>
@@ -85,7 +97,7 @@ namespace RestauranteAtomo.model
             {
                 _mesas.Add(mesa);
             }
-        }
+        }*/
         
         /// <summary>
         /// Atende a requisicao feita pelo cliente
