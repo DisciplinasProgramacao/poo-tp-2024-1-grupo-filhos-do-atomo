@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestauranteAtomo.model
 {
-    internal class Restaurante
+    internal class Restaurante : Estabelecimento
     {
         #region  /* Atributos */
         
