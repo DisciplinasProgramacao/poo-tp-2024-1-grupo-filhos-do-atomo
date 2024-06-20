@@ -27,7 +27,7 @@ namespace RestauranteAtomo.model
 
         #region Metodos
 
-        public Pedido() 
+        public Pedido()
         {
             this._itens = new List<Produto>();
             this._aberto = true;
@@ -43,7 +43,7 @@ namespace RestauranteAtomo.model
             {
                 _total += pd.Preco;
             }
-            return _total*_TAXA_SERVICO;
+            return _total * _TAXA_SERVICO;
         }
 
         /// <summary>
@@ -77,6 +77,21 @@ namespace RestauranteAtomo.model
         public void fechar()
         {
             this._aberto = false;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder relat = new StringBuilder();
+
+            relat.AppendLine("===========ITENS DO PEDIDO==========");
+            foreach (Produto p in _itens)
+            {
+                relat.AppendLine(p.ToString());
+            }
+            relat.AppendLine("\n===========VALOR TOTAL===========");
+            relat.AppendLine("R$ " + this.calcularValorTotal().ToString("0.00"));
+            relat.Append("==============================");
+            return relat.ToString();
         }
 
         #endregion

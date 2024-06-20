@@ -1,7 +1,8 @@
+﻿using RestauranteAtomo.model;
+using System.Text;
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RestauranteAtomo.model
@@ -38,9 +39,7 @@ namespace RestauranteAtomo.model
 
         private Cliente cliente;
 
-        public Cliente MeuCliente{
-            get {return cliente;}
-        }
+
 
         #endregion
 
@@ -78,6 +77,13 @@ namespace RestauranteAtomo.model
             get => this.mesa;
         }
 
+        public Cliente MeuCliente
+        {
+            get { return cliente; }
+        }
+
+
+
         #endregion
 
 
@@ -101,11 +107,11 @@ namespace RestauranteAtomo.model
         /// <param name="mesa">Mesa do restaurante passada por parametro</param>
         public void alocarMesa(Mesa mesa)
         {
-           
-                this.mesa = mesa;
-                atendida = true;
-                this.mesa.Ocupar();
-                pedido = new Pedido();
+
+            this.mesa = mesa;
+            atendida = true;
+            this.mesa.Ocupar();
+            pedido = new Pedido();
 
         }
 
@@ -136,10 +142,10 @@ namespace RestauranteAtomo.model
         /// <returns>Retorna o total do pedido</returns>
         public double fecharConta()
         {
-            double total = pedido.CalcularValorTotal();
+            double total = pedido.calcularValorTotal();
             pedido.fechar();
             return total;
-        }        
+        }
 
         /// <summary>
         /// Recebe o produto da classe Produto
@@ -160,21 +166,38 @@ namespace RestauranteAtomo.model
             Mesa.Liberar();
         }
 
+        public string resumoPedido()
+        {
+            StringBuilder relat = new StringBuilder();
+
+            relat.AppendLine(pedido.ToString());
+            relat.AppendLine("\n======VALOR POR PESSOA============");
+            relat.AppendLine("R$ " + this.valorPorCliente().ToString("0.00"));
+            relat.Append("=====================");
+            return relat.ToString();
+        }
+
         /// <summary>
         /// To String Requisição
         /// </summary>
         /// <returns>String descrevendo atributos do metodo</returns>
         public override string ToString()
         {
-               return
-               $"Mesa: {mesa}, " +
-               $"Quantidade de Lugares: {quantLugares}, " +
-               $"Chegada: {chegada}, " +
-               $"Atendida: {atendida}, \n" +
-               $"Cliente: {cliente.ToString()}, \n" +
-               $"Pedido: {pedido.ToString()}";
+            return
+            $"\n=======Mesa======== " +
+            $"\n{mesa.ToString()},\n" +
+            $"Lugares pedidos pelo cliente: {quantLugares}\n" +
+            $"\n=======Cliente=======\n" +
+            $"Chegada: {chegada}\n" +
+            $"Atendida: {atendida},\n" +
+            $"{cliente.ToString()},\n" +
+            $"Pedido: \n{pedido.ToString()}";
         }
 
+        public bool isAberta()
+        {
+            return this.foiAtendida() && pedido.Aberto;
+        }
 
 
         #endregion

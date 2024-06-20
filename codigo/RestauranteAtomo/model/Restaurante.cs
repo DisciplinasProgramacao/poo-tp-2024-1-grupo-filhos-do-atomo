@@ -158,7 +158,7 @@ namespace RestauranteAtomo.model
 
 
         public Requisicao findRequisicaoAtendidaCliente(Cliente cliente){
-            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.foiAtendida() && r.Pedido.Aberto);
+            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.isAberta());
         }
 
         public Requisicao findRequisicaoNaoAtendidaCliente(Cliente cliente){
@@ -194,7 +194,7 @@ namespace RestauranteAtomo.model
         /// </summary>
         /// <param name="codigoProduto">Código único do produto no cardápio</param>
         /// <param name="requisicao">Requisição do cliente que está fazendo o pedido</param>
-        public void AtenderSolicitacaoItem(string codigoProduto, Requisicao requisicao)
+        /*public void AtenderSolicitacaoItem(string codigoProduto, Requisicao requisicao)
         {
             // 1. Obter o produto do cardápio com base no código fornecido
             Produto produto = ObterProdutoDoCardapio(codigoProduto);
@@ -210,9 +210,9 @@ namespace RestauranteAtomo.model
                 // 4. Tratar o erro de produto não encontrado (opcional)
                 Console.WriteLine("O produto Desejado Não existe..");
             }
-        }
+        }*/
 
-        /// <summary>
+       /* /// <summary>
         /// Exibe o conteúdo do cardápio para o cliente.
         /// </summary>
         /// <returns>String contendo a lista de pratos e bebidas do cardápio</returns>
@@ -274,7 +274,7 @@ namespace RestauranteAtomo.model
                 Console.WriteLine("Codigo Inválido");
                 return null;
             }
-        }
+        }*/
         #endregion /* Fim Metodo Publicos */;
     }
 }

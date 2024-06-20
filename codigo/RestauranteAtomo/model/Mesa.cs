@@ -71,6 +71,12 @@ namespace RestauranteAtomo.model
             ocupada = true;
         }
 
+        public override string ToString()
+        {
+            return $"Num.Mesa:{numero} \n" +
+                   $"Capacidade:{capacidade}";
+        }
+
 
     }
 }

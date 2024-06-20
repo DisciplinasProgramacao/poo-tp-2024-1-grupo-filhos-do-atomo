@@ -1,3 +1,4 @@
+﻿using RestauranteAtomo.model;
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,15 @@ namespace RestauranteAtomo.model
         /// </summary>
         public int Codigo
         {
-            get{ return _codigo; }
+            get { return _codigo; }
+        }
+
+        /// <summary>
+        /// Método get que retorna o preço do produto
+        /// </summary>
+        public double Preco
+        {
+            get { return _preco; }
         }
         #endregion
 
@@ -63,8 +72,9 @@ namespace RestauranteAtomo.model
         /// </summary>
         /// <param name="descricao">Descrição do produto</param>
         /// <param name="preco">Preço do produto</param>
-        public Produto(string descricao, double preco) { 
-        
+        public Produto(string descricao, double preco)
+        {
+
             init(descricao, preco);
         }
 
@@ -74,10 +84,11 @@ namespace RestauranteAtomo.model
         /// para produtos que o preço não foi informado
         /// </summary>
         /// <param name="descricao">Descrição do produto</param>
-        public Produto(string descricao) { 
-        
+        public Produto(string descricao)
+        {
+
             init(descricao, 5.0);
-        
+
         }
         #endregion
 
@@ -90,9 +101,9 @@ namespace RestauranteAtomo.model
         /// <returns>Retorna uma string formatada dos atributos do proprio produto</returns>
         public override string ToString()
         {
-            return 
-                $"+------------------------------+"+
-                $"Código: {_codigo},\nDescrição: {_descricao},\nPreço: {_preco:C}"+
+            return
+                $"+------------------------------+" +
+                $"Código: {_codigo},\nDescrição: {_descricao},\nPreço: {_preco:C}" +
                 $"+------------------------------+";
         }
         #endregion
