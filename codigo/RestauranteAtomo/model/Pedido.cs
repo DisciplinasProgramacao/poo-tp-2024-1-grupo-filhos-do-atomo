@@ -11,14 +11,14 @@ namespace RestauranteAtomo.model
         #region Atributo
 
         private const double _TAXA_SERVICO = 0.1;
-        private double _total;
+        /*private double _total;*/
         private List<Produto> _itens;
         private bool _aberto;
 
         #endregion
 
         #region Propriedades
-        public double Total { get => _total; }
+       /* public double Total { get => _total; }*/
         public bool Aberto { get => _aberto; }
 
         #endregion
@@ -39,11 +39,15 @@ namespace RestauranteAtomo.model
         /// <returns>Retorna o valor da soma</returns>
         public double calcularValorTotal()
         {
+            double total = 0;
             foreach (Produto pd in _itens)
             {
-                _total += pd.Preco;
+                total += pd.Preco;
             }
-            return _total * _TAXA_SERVICO;
+
+            double totalTaxa = total * _TAXA_SERVICO;
+            
+            return total += totalTaxa;
         }
 
         /// <summary>

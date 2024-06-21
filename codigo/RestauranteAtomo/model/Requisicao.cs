@@ -130,8 +130,8 @@ namespace RestauranteAtomo.model
         /// <returns>Retorna o valor a ser pago por cada cliente</returns>
         public double valorPorCliente()
         {
-            double total = fecharConta();
-            double valorPorCliente = total / quantLugares;
+            double total = pedido.calcularValorTotal();
+            double valorPorCliente =  total / quantLugares;
             return valorPorCliente;
         }
 
@@ -140,11 +140,10 @@ namespace RestauranteAtomo.model
         /// chama o método de fechar a conta e retorna o total.
         /// </summary>
         /// <returns>Retorna o total do pedido</returns>
-        public double fecharConta()
+        public string fecharConta()
         {
-            double total = pedido.calcularValorTotal();
             pedido.fechar();
-            return total;
+            return pedido.ToString();
         }
 
         /// <summary>
@@ -183,15 +182,16 @@ namespace RestauranteAtomo.model
         /// <returns>String descrevendo atributos do metodo</returns>
         public override string ToString()
         {
+
             return
             $"\n=======Mesa======== " +
             $"\n{mesa.ToString()},\n" +
-            $"Lugares pedidos pelo cliente: {quantLugares}\n" +
+            $"Quantidade de lugares pedidos pelo cliente: {quantLugares}\n" +
             $"\n=======Cliente=======\n" +
             $"Chegada: {chegada}\n" +
-            $"Atendida: {atendida},\n" +
-            $"{cliente.ToString()},\n" +
-            $"Pedido: \n{pedido.ToString()}";
+            $"Atendida: {(atendida ? "Sim" :"Não")},\n" +
+            $"{cliente.ToString()}\n";
+            
         }
 
         public bool isAberta()
