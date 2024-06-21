@@ -15,6 +15,11 @@ namespace RestauranteAtomo.model
       this.contato = contato;
       this.id = ultimo_id++;
     }
+
+    public Cliente(int id)
+    {
+        this.id = id;
+    }
     #endregion
 
     #region propriedades
@@ -34,7 +39,7 @@ namespace RestauranteAtomo.model
 
     public override string ToString()
     {
-      return "Nome: " + this.nome + "; Contato: " + this.contato;
+      return "Nome: " + this.nome + "\nContato: " + this.contato;
     }
     #endregion
 

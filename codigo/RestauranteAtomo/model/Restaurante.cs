@@ -17,6 +17,7 @@ namespace RestauranteAtomo.model
         private List<Requisicao> _filaDeEspera;
         private int _id;
         private List<Requisicao> historicoRequisicoes;
+        private Cardapio _cardapio;
 
         /// <summary>
         /// Construtor da classe restaurante
@@ -27,8 +28,8 @@ namespace RestauranteAtomo.model
             _id = id;
             _mesas = new List<Mesa>
         {
-            new Mesa(1, 4,false), 
-            new Mesa(2, 4,false), 
+           /* new Mesa(1, 4,false), */
+           /* new Mesa(2, 4,false), 
             new Mesa(3, 4,false), 
             new Mesa(4, 4,false),
             new Mesa(5, 6,false), 
@@ -36,10 +37,11 @@ namespace RestauranteAtomo.model
             new Mesa(7, 6,false), 
             new Mesa(8, 6,false),
             new Mesa(9, 8,false), 
-            new Mesa(10, 8,false)
+            new Mesa(10, 8,false)*/
         };
             _filaDeEspera = new List<Requisicao>();
             historicoRequisicoes = new List<Requisicao>();
+            _cardapio = new Cardapio();
         }
 
         internal List<Mesa> Mesas { get => _mesas;}
@@ -80,25 +82,25 @@ namespace RestauranteAtomo.model
             }
             return false;
         }
-        
+
         #endregion /* Fim Metodo Privado */;
-        
-        
+
+
         #region  /* Métodos Publicos */
-        
-        
-       /* /// <summary>
+
+
+        /// <summary>
         /// Registra uma nova mesa para o restaurante
         /// </summary>
         /// <param name="mesa">Parametro para receber os dados do objeto do tipo mesa</param>
-        public void adicionarMesa(Mesa mesa) 
-        { 
-            if(_mesas.Count <= _maxMesas)
+        public void adicionarMesa(Mesa mesa)
+        {
+            if (_mesas.Count <= _maxMesas)
             {
                 _mesas.Add(mesa);
             }
-        }*/
-        
+        }
+
         /// <summary>
         /// Atende a requisicao feita pelo cliente
         /// </summary>
@@ -158,7 +160,7 @@ namespace RestauranteAtomo.model
 
 
         public Requisicao findRequisicaoAtendidaCliente(Cliente cliente){
-            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.foiAtendida() && r.Pedido.Aberto);
+            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.isAberta());
         }
 
         public Requisicao findRequisicaoNaoAtendidaCliente(Cliente cliente){
@@ -194,7 +196,7 @@ namespace RestauranteAtomo.model
         /// </summary>
         /// <param name="codigoProduto">Código único do produto no cardápio</param>
         /// <param name="requisicao">Requisição do cliente que está fazendo o pedido</param>
-        public void AtenderSolicitacaoItem(string codigoProduto, Requisicao requisicao)
+        public void AtenderSolicitacaoItem(int codigoProduto, Requisicao requisicao)
         {
             // 1. Obter o produto do cardápio com base no código fornecido
             Produto produto = ObterProdutoDoCardapio(codigoProduto);
@@ -219,25 +221,9 @@ namespace RestauranteAtomo.model
         public string ExibirCardapio()
         {
             StringBuilder cardapioTexto = new StringBuilder();
-
             // 1. Adicionar título do cardápio
-            cardapioTexto.AppendLine("**Restaurante Atomo - Cardápio**");
-
-            // 2. Adicionar seção de pratos
-            cardapioTexto.AppendLine("\n**Pratos:**");
-            foreach (Prato prato in _cardapio.ObterPratos())
-            {
-                cardapioTexto.AppendLine($"Código: {prato.Id} - Nome: {prato.Nome} - Preço: R${prato.Preco}");
-            }
-
-            // 3. Adicionar seção de bebidas
-            cardapioTexto.AppendLine("\n**Bebidas:**");
-            foreach (Bebida bebida in _cardapio.ObterBebidas())
-            {
-                cardapioTexto.AppendLine($"Código: {bebida.Id} - Nome: {bebida.Nome} - Preço: R${bebida.Preco}");
-            }
-
-            return cardapioTexto.ToString();
+            cardapioTexto.AppendLine("============Cardápio do Restaurante============");
+            return cardapioTexto.ToString() + _cardapio.menuFormatado();
         }
 
 
@@ -247,26 +233,12 @@ namespace RestauranteAtomo.model
         /// </summary>
         /// <param name="codigoProduto">Código único do produto no cardápio</param>
         /// <returns>Instância do `Produto` encontrado ou `null` se não encontrado</returns>
-        private Produto ObterProdutoDoCardapio(string codigoProduto)
+        private Produto ObterProdutoDoCardapio(int codigoProduto)
         {
             try
             {
-                int idProduto = int.Parse(codigoProduto); // Tentar converter o código para inteiro
-                Prato pratoBuscado = _cardapio.ObterPratoPorId(idProduto);
-                Bebida bebidaBuscada = _cardapio.ObterBebidaPorId(idProduto);
-
-                if (pratoBuscado != null)
-                {
-                    return pratoBuscado;
-                }
-                else if (bebidaBuscada != null)
-                {
-                    return bebidaBuscada;
-                }
-                else
-                {
-                    return null; // Produto não encontrado
-                }
+                Produto produtoBuscado = _cardapio.LocalizarProduto(codigoProduto);
+                return produtoBuscado;
             }
             catch (FormatException) // Erro na conversão do código para inteiro
             {

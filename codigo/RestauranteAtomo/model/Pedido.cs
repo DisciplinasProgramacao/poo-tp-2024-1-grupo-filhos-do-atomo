@@ -11,14 +11,14 @@ namespace RestauranteAtomo.model
         #region Atributo
 
         private const double _TAXA_SERVICO = 0.1;
-        private double _total;
+        /*private double _total;*/
         private List<Produto> _itens;
         private bool _aberto;
 
         #endregion
 
         #region Propriedades
-        public double Total { get => _total; }
+       /* public double Total { get => _total; }*/
         public bool Aberto { get => _aberto; }
 
         #endregion
@@ -27,7 +27,7 @@ namespace RestauranteAtomo.model
 
         #region Metodos
 
-        public Pedido() 
+        public Pedido()
         {
             this._itens = new List<Produto>();
             this._aberto = true;
@@ -39,11 +39,15 @@ namespace RestauranteAtomo.model
         /// <returns>Retorna o valor da soma</returns>
         public double calcularValorTotal()
         {
+            double total = 0;
             foreach (Produto pd in _itens)
             {
-                _total += pd.Preco;
+                total += pd.Preco;
             }
-            return _total*_TAXA_SERVICO;
+
+            double totalTaxa = total * _TAXA_SERVICO;
+            
+            return total += totalTaxa;
         }
 
         /// <summary>
@@ -77,6 +81,21 @@ namespace RestauranteAtomo.model
         public void fechar()
         {
             this._aberto = false;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder relat = new StringBuilder();
+
+            relat.AppendLine("===========ITENS DO PEDIDO==========");
+            foreach (Produto p in _itens)
+            {
+                relat.AppendLine(p.ToString());
+            }
+            relat.AppendLine("\n===========VALOR TOTAL===========");
+            relat.AppendLine("R$ " + this.calcularValorTotal().ToString("0.00"));
+            relat.Append("==============================");
+            return relat.ToString();
         }
 
         #endregion
