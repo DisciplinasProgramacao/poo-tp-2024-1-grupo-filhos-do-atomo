@@ -9,7 +9,7 @@ namespace RestauranteAtomo.model
     internal abstract class Estabelecimento
     {
         #region  /* Atributos */
-        static int ultimo_id = 1;
+       private const int _maxMesas = 10;
         private int _id;
         private string _nomeEstabelecimento;
         protected List<Mesa> _mesas;
@@ -20,20 +20,20 @@ namespace RestauranteAtomo.model
         /// <summary>
         /// Construtor da classe restaurante
         /// </summary>
-        protected Estabelecimento()
+        protected Estabelecimento(int _id)
         {
-            init();
+            init(_id);
         }
 
-        protected Estabelecimento(string nomeEstabelecimento)
+        protected Estabelecimento(int _id, string nomeEstabelecimento)
         {
             this._nomeEstabelecimento = nomeEstabelecimento;
-            init();
+            init(_id);
         }
 
-        private void init(){
-            this._id = ultimo_id++;
+        private void init(int id){
             this._mesas = new List<Mesa>();
+            this._id = id;
             this._clientes = new List<Cliente>();
             this.historicoRequisicoes = new List<Requisicao>();
         }
@@ -81,7 +81,7 @@ namespace RestauranteAtomo.model
         }
 
         public Requisicao findRequisicaoAtendidaCliente(Cliente cliente){
-            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.isAberto());
+            return historicoRequisicoes.Find(r => r.MeuCliente.Equals(cliente) && r.isAberta());
         }
         
         public String exibirMesas(){ 
@@ -97,7 +97,7 @@ namespace RestauranteAtomo.model
             StringBuilder descEspera = new StringBuilder();
             descEspera.AppendLine("\n----Histórico de Requisições Atendidas----");
             foreach(Requisicao req in historicoRequisicoes){
-                descEspera.AppendLine(req.MeuCliente.Nome + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
+                descEspera.AppendLine(req.MeuCliente.ToString() + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
             }
             return descEspera.ToString();
         }
@@ -108,7 +108,7 @@ namespace RestauranteAtomo.model
         /// </summary>
         /// <param name="codigoProduto">Código único do produto no cardápio</param>
         /// <param name="requisicao">Requisição do cliente que está fazendo o pedido</param>
-        public void AtenderSolicitacaoItem(int codigoProduto, Requisicao requisicao)
+        public Produto AtenderSolicitacaoItem(int codigoProduto, Requisicao requisicao)
         {
             // 1. Obter o produto do cardápio com base no código fornecido
             Produto produto = ObterProdutoDoCardapio(codigoProduto);
@@ -118,7 +118,9 @@ namespace RestauranteAtomo.model
             {
                 // 3. Adicionar o produto à requisição do cliente
                 requisicao.receberItemSolicitado(produto);
+                return produto;
             }
+            return null;
         }
 
         /// <summary>
@@ -129,7 +131,7 @@ namespace RestauranteAtomo.model
         {
             StringBuilder cardapioTexto = new StringBuilder();
             // 1. Adicionar título do cardápio
-            cardapioTexto.AppendLine(nomeEstabelecimento + " Cardápio**");
+            cardapioTexto.AppendLine(_nomeEstabelecimento + " Cardápio**");
             return cardapioTexto.ToString() + _cardapio.menuFormatado();
         }
 
@@ -144,6 +146,38 @@ namespace RestauranteAtomo.model
             return produtoBuscado; 
         }
         #endregion /* Fim Metodo Publicos */;
+
+        public override int GetHashCode()
+        {
+            return _id;
+        }
+
+        public bool adicionarMesa(Mesa mesa){
+            if (_mesas.Count < _maxMesas)
+            {
+               _mesas.Add(mesa);
+               return true;
+            }
+            return false;
+        }
+
+        public bool adicionarCliente(Cliente cliente){
+            int quantidadeClientes = _clientes.Count;
+
+            _clientes.Add(cliente);
+
+            if(_clientes.Count > quantidadeClientes)
+                return true;
+            else
+                return false;
+        }
+
+        public Cliente localizarCliente(int idCliente){
+             Cliente clientePesquisa = new Cliente(idCliente);
+             Cliente cliente = _clientes.Find(c => c.Equals(clientePesquisa));
+             return cliente;
+        }
+
     }
 }
 

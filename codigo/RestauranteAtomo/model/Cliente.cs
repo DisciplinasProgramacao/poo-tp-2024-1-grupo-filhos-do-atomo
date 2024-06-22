@@ -22,24 +22,11 @@ namespace RestauranteAtomo.model
     }
     #endregion
 
-    #region propriedades
-    public string Nome
-    {
-      get { return nome; }
-    }
-
-    public string Contato
-    {
-      get { return contato; }
-    }
-
-    #endregion
-
     #region metodos
 
     public override string ToString()
     {
-      return "Nome: " + this.nome + "\nContato: " + this.contato;
+      return "Código: " + this.id + "\nNome: " + this.nome + "\nContato: " + this.contato;
     }
     #endregion
 
