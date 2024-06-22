@@ -102,9 +102,9 @@ namespace RestauranteAtomo.model
         public override string ToString()
         {
             return
-                $"+------------------------------+" +
-                $"Código: {_codigo},\nDescrição: {_descricao},\nPreço: {_preco:C}" +
-                $"+------------------------------+";
+                "\n+------------------------------+\n" +
+                $"Código: {_codigo}\nDescrição: {_descricao}\nPreço: {_preco:C}" +
+                "\n+------------------------------+\n";
         }
         #endregion
 

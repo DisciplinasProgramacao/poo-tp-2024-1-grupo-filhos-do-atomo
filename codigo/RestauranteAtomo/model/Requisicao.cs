@@ -170,9 +170,8 @@ namespace RestauranteAtomo.model
             StringBuilder relat = new StringBuilder();
 
             relat.AppendLine(pedido.ToString());
-            relat.AppendLine("\n======VALOR POR PESSOA============");
+            relat.AppendLine("\n==========VALOR POR PESSOA==========");
             relat.AppendLine("R$ " + this.valorPorCliente().ToString("0.00"));
-            relat.Append("=====================");
             return relat.ToString();
         }
 
@@ -185,11 +184,11 @@ namespace RestauranteAtomo.model
 
             return
             $"\n=======Mesa======== " +
-            $"\n{mesa.ToString()},\n" +
+            $"\n{mesa.ToString()}\n" +
             $"Quantidade de lugares pedidos pelo cliente: {quantLugares}\n" +
             $"\n=======Cliente=======\n" +
             $"Chegada: {chegada}\n" +
-            $"Atendida: {(atendida ? "Sim" :"Não")},\n" +
+            $"Atendida: {(atendida ? "Sim" :"Não")}\n" +
             $"{cliente.ToString()}\n";
             
         }

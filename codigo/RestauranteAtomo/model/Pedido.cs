@@ -94,7 +94,6 @@ namespace RestauranteAtomo.model
             }
             relat.AppendLine("\n===========VALOR TOTAL===========");
             relat.AppendLine("R$ " + this.calcularValorTotal().ToString("0.00"));
-            relat.Append("==============================");
             return relat.ToString();
         }
 

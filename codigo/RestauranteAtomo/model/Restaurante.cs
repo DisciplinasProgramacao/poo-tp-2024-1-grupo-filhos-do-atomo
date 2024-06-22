@@ -28,16 +28,16 @@ namespace RestauranteAtomo.model
             _id = id;
             _mesas = new List<Mesa>
         {
-           /* new Mesa(1, 4,false), */
-           /* new Mesa(2, 4,false), 
-            new Mesa(3, 4,false), 
+            new Mesa(1, 4,false),
+            new Mesa(2, 4,false),
+            new Mesa(3, 4,false),
             new Mesa(4, 4,false),
-            new Mesa(5, 6,false), 
-            new Mesa(6, 6,false), 
-            new Mesa(7, 6,false), 
+            new Mesa(5, 6,false),
+            new Mesa(6, 6,false),
+            new Mesa(7, 6,false),
             new Mesa(8, 6,false),
-            new Mesa(9, 8,false), 
-            new Mesa(10, 8,false)*/
+            new Mesa(9, 8,false),
+            new Mesa(10, 8,false)
         };
             _filaDeEspera = new List<Requisicao>();
             historicoRequisicoes = new List<Requisicao>();
@@ -95,7 +95,7 @@ namespace RestauranteAtomo.model
         /// <param name="mesa">Parametro para receber os dados do objeto do tipo mesa</param>
         public void adicionarMesa(Mesa mesa)
         {
-            if (_mesas.Count <= _maxMesas)
+            if (_mesas.Count < _maxMesas)
             {
                 _mesas.Add(mesa);
             }
