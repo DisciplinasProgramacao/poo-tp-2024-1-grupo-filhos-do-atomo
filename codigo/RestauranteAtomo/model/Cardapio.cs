@@ -40,7 +40,6 @@ namespace RestauranteAtomo.model
         public string menuFormatado()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Menu: ");
             foreach (var item in produtos)
             {
                 sb.AppendLine(item.ToString());

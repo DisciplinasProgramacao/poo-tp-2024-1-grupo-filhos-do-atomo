@@ -73,7 +73,7 @@ namespace RestauranteAtomo.model
 
         public override string ToString()
         {
-            return $"Num.Mesa: {numero}, \n" +
+            return $"Num.Mesa: {numero} \n" +
                    $"Capacidade: {capacidade}";
         }
 
