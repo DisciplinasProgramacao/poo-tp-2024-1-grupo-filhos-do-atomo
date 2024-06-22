@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestauranteAtomo.model
 {
-    internal class Cardapio
+    internal abstract class Cardapio
     {
 
         #region Atributo(s)
@@ -71,20 +71,8 @@ namespace RestauranteAtomo.model
         /// <summary>
         /// Método responsavel por adicionar itens do restaurante no cardápio
         /// </summary>
-        private void carregarCardapio()
-        {
-            produtos.Add(new Produto("Moqueca de Palmito", 32.00));
-            produtos.Add(new Produto("Falafel Assado", 20.00));
-            produtos.Add(new Produto("Salada Primavera com Macarrão Konjac", 25.00));
-            produtos.Add(new Produto("Escondidinho de Inhame", 18.0));
-            produtos.Add(new Produto("Strogonoff de Cogumelos", 35.0));
-            produtos.Add(new Produto("Caçarola de legumes", 22.0));
-            produtos.Add(new Produto("Água", 3.0));
-            produtos.Add(new Produto("Copo de suco", 7.0));
-            produtos.Add(new Produto("Refrigerante orgânico", 7.0));
-            produtos.Add(new Produto("Cerveja vegana", 9.0));
-            produtos.Add(new Produto("Taça de vinho vegano", 18.0));
-        }
+        public abstract void carregarCardapio();
+       
 
         #endregion
 
