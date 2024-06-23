@@ -9,7 +9,7 @@ namespace RestauranteAtomo.model
     internal abstract class Estabelecimento
     {
         #region  /* Atributos */
-       private const int _maxMesas = 10;
+        private const int _maxMesas = 10;
         private int _id;
         private string _nomeEstabelecimento;
         protected List<Mesa> _mesas;
