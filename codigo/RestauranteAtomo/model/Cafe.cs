@@ -9,7 +9,24 @@ namespace RestauranteAtomo.model
     internal class Cafe : Estabelecimento
     {
 
-        public Cafe(int _id,string nomeEstabelecimento):base(_id,nomeEstabelecimento){}
+        public Cafe(int _id,string nomeEstabelecimento):base(_id,nomeEstabelecimento)
+        {
+            _mesas = new List<Mesa>
+        {
+            new Mesa(1, 4,false),
+            new Mesa(2, 4,false),
+            new Mesa(3, 4,false),
+            new Mesa(4, 4,false),
+            new Mesa(5, 6,false),
+            new Mesa(6, 6,false),
+            new Mesa(7, 6,false),
+            new Mesa(8, 6,false),
+            new Mesa(9, 8,false),
+            new Mesa(10, 8,false)
+        };
+            historicoRequisicoes = new List<Requisicao>();
+            _cardapio = new CardapioCafe();
+        }
 
         public override bool atenderCliente(Cliente cliente,int quantPessoas)
         {
