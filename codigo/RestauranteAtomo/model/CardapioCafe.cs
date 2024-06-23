@@ -8,19 +8,6 @@ namespace RestauranteAtomo.model
 {
     internal class CardapioCafe : Cardapio
     {
-        /// <summary>
-        ///  É uma lista que guarda vários objetos do tipo Produto.
-        /// </summary>
-        private List<Produto> produtos;
-
-        /// <summary>
-        ///  Inicializa a classe e carrega os produtos.
-        /// </summary>
-        public CardapioCafe()
-        {
-            produtos = new List<Produto>();
-            CarregarProdutos();
-        }
 
         /// <summary>
         /// Popula a lista de produtos com itens específicos do café.
