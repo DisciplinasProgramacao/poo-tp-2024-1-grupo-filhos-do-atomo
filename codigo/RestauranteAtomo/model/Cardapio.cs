@@ -14,7 +14,7 @@ namespace RestauranteAtomo.model
         /// <summary>
         /// Lista de que contém os produtos do cardápio
         /// </summary>
-        private List<Produto> produtos;
+        protected List<Produto> produtos;
         #endregion
 
         #region Construtor
@@ -71,7 +71,7 @@ namespace RestauranteAtomo.model
         /// <summary>
         /// Método responsavel por adicionar itens do restaurante no cardápio
         /// </summary>
-        public abstract void carregarCardapio();
+        protected abstract void carregarCardapio();
        
 
         #endregion
