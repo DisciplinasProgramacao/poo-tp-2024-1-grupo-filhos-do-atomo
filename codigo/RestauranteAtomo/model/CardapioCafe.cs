@@ -13,7 +13,7 @@ namespace RestauranteAtomo.model
         /// <summary>
         /// Popula a lista de produtos com itens específicos do café.
         /// </summary>
-        public override void carregarCardapio()
+        protected override void carregarCardapio()
         {
             produtos.Add(new Produto("Pão de queijo", 5.00));
             produtos.Add(new Produto("Bolinha de cogumelo", 7.00));
