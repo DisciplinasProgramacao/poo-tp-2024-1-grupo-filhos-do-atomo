@@ -34,23 +34,23 @@ namespace RestauranteAtomo
             int codigo;
             do{
                 try{
-                    Console.WriteLine(menuInicial());
+                    menuInicial();
                     codigo = int.Parse(Console.ReadLine());
                     Console.Clear();
                     switch(codigo)
                     {
-                        case RESTAURANTE: 
+                       /* case RESTAURANTE: 
                             if(estabelecimento == null){
                                 estabelecimento = new Restaurante(codigo, "Restaurante Átomo");
                                 mockDados();
                             }
                             executarOperacoesRestaurante();
-                            break;
+                            break;*/
                         case CAFE:
-                            //if(estabelecimento == null){
-                            //estabelecimento = new Cafe(codigo, "Café Átomo");
-                            //}
-                            //executarOperacoesCafe();
+                            if(estabelecimento == null){
+                              estabelecimento = new Cafe(codigo, "Café Átomo");
+                            }
+                            executarOperacoesCafe();
                             break;
                         case 0:
                             Console.WriteLine("Adeus!");
@@ -409,77 +409,77 @@ namespace RestauranteAtomo
         }
 
         public static void executarOperacoesCafe(){
-            // Cafe cafe = (Cafe) estabelecimento;
-            // int opcao;
-            // do
-            // {
-            //     Console.WriteLine(menu());
-            //     Console.WriteLine("Digite a opção desejada: ");
-            //     bool valido = false;
-            //     do{
-            //         valido = int.TryParse(Console.ReadLine(), out opcao);
-            //         if(!valido) Console.WriteLine("Digite novamente !");
-            //     }while(!valido);
-            //     Console.Clear();
-                
-            //     switch (opcao)
-            //     {
-            //         case 1:
-            //             List<string> erros;
-            //             Cliente novoCliente = registrarCliente(out erros);
-            //             executarCadastro(novoCliente, erros);
-            //             break;
-            //         case 2:
-            //             Cliente c = iniciarBuscaCliente();
-            //             if (c != null && cafe.findRequisicaoAtendidaCliente(c) == null)
-            //                 iniciarAtendimento(c, "O estabelecimento está lotado. Peça para o cliente voltar em outro momento!");
-            //             else
-            //             {
-            //                 string mensagem = "Cliente não encontrado ou cliente possui requisição pendente.\n";
-            //                 mensagem += "Para cadastrar nova requisição, a requisição existente deve ser finalizada primeiro!";
-            //                 Console.WriteLine(mensagem);
-            //             }
-            //             espera();
-            //             break;
-            //         case 3:
-            //             adicionarMesa();
-            //             espera();
-            //             break;
-            //         case 4:
-            //             Cliente c2 = iniciarBuscaCliente();
-            //             if (c2 != null)
-            //             {
-            //                 atenderSolicitacaoItem(c2);
-            //             }
-            //             else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
-            //             espera();
-            //             break;
-            //         case 5:
-            //             Cliente c3 = iniciarBuscaCliente();
-            //             if (c3 != null)
-            //             {
-            //                 exibirConta(c3);
-            //             }
-            //             else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
-            //             espera();
-            //             break;
-            //         case 7:
-            //              Console.WriteLine(estabelecimento.exibirListaRequisicoes());
-            //              espera();
-            //              break;
-            //        case 8:
-            //              Console.WriteLine("divider");
-            //              Console.WriteLine(estabelecimento.exibirMesas());
-            //              espera();
-            //              break;
-            //         case 0:
-            //             Console.Clear();
-            //             break;
-            //         default:
-            //             Console.WriteLine("Opção inválida!");
-            //             break;
-            //     }
-            // } while (opcao != 0);
+            Cafe cafe = (Cafe)estabelecimento;
+            int opcao;
+            do
+            {
+                Console.WriteLine(menu());
+                Console.WriteLine("Digite a opção desejada: ");
+                bool valido = false;
+                do
+                {
+                    valido = int.TryParse(Console.ReadLine(), out opcao);
+                    if (!valido) Console.WriteLine("Digite novamente !");
+                } while (!valido);
+                Console.Clear();
+
+                switch (opcao)
+                {
+                    case 1:
+                        List<string> erros;
+                        Cliente novoCliente = registrarCliente(out erros);
+                        executarCadastro(novoCliente, erros);
+                        break;
+                    case 2:
+                        Cliente c = iniciarBuscaCliente();
+                        if (c != null && cafe.findRequisicaoAtendidaCliente(c) == null)
+                            iniciarAtendimento(c, "O estabelecimento está lotado. Peça para o cliente voltar em outro momento!");
+                        else
+                        {
+                            string mensagem = "Cliente não encontrado ou cliente possui requisição pendente.\n";
+                            mensagem += "Para cadastrar nova requisição, a requisição existente deve ser finalizada primeiro!";
+                            Console.WriteLine(mensagem);
+                        }
+                        espera();
+                        break;
+                    case 3:
+                        adicionarMesa();
+                        espera();
+                        break;
+                    case 4:
+                        Cliente c2 = iniciarBuscaCliente();
+                        if (c2 != null)
+                        {
+                            atenderSolicitacaoItem(c2);
+                        }
+                        else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
+                        espera();
+                        break;
+                    case 5:
+                        Cliente c3 = iniciarBuscaCliente();
+                        if (c3 != null)
+                        {
+                            exibirConta(c3);
+                        }
+                        else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
+                        espera();
+                        break;
+                    case 7:
+                        Console.WriteLine(estabelecimento.exibirListaRequisicoes());
+                        espera();
+                        break;
+                    case 8:
+                        Console.WriteLine(estabelecimento.exibirMesas());
+                        espera();
+                        break;
+                    case 0:
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida!");
+                        break;
+                }
+            } while (opcao != 0);
         }
 
         static void Main(string[] args)
