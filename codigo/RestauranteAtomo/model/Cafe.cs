@@ -24,7 +24,6 @@ namespace RestauranteAtomo.model
             new Mesa(9, 8,false),
             new Mesa(10, 8,false)
         };
-            historicoRequisicoes = new List<Requisicao>();
             _cardapio = new CardapioCafe();
         }
 

@@ -37,19 +37,16 @@ namespace RestauranteAtomo
                     Console.WriteLine(menuInicial());
                     codigo = int.Parse(Console.ReadLine());
                     Console.Clear();
+                    estabelecimento = (Estabelecimento) estabelecimento;
                     switch(codigo)
                     {
                         case RESTAURANTE: 
-                            if(estabelecimento == null){
-                                estabelecimento = new Restaurante(codigo, "Restaurante Átomo");
-                                mockDados();
-                            }
+                            estabelecimento = new Restaurante(codigo, "Restaurante Átomo");
+                            mockDados();
                             executarOperacoesRestaurante();
                             break;
                         case CAFE:
-                            if(estabelecimento == null){
-                              estabelecimento = new Cafe(codigo, "Café Átomo");
-                            }
+                            estabelecimento = new Cafe(codigo, "Café Átomo");
                             executarOperacoesCafe();
                             break;
                         case 0:
@@ -331,7 +328,8 @@ namespace RestauranteAtomo
         }
 
         public static void executarOperacoesRestaurante(){
-            Restaurante restaurante = (Restaurante) estabelecimento;
+            Estabelecimento copy = estabelecimento;
+            Restaurante restaurante = (Restaurante) copy;
             int opcao;
             do
             {
