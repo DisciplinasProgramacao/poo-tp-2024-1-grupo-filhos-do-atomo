@@ -93,11 +93,11 @@ namespace RestauranteAtomo.model
             return descMesas.ToString();
         }
 
-        protected virtual String exibirListaRequisicoes(){
+        public virtual String exibirListaRequisicoes(){
             StringBuilder descEspera = new StringBuilder();
             descEspera.AppendLine("\n----Histórico de Requisições Atendidas----");
             foreach(Requisicao req in historicoRequisicoes){
-                descEspera.AppendLine(req.MeuCliente.ToString() + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
+                descEspera.AppendLine(req.MeuCliente.ToString() + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares+"\n");
             }
             return descEspera.ToString();
         }
@@ -176,6 +176,26 @@ namespace RestauranteAtomo.model
              Cliente clientePesquisa = new Cliente(idCliente);
              Cliente cliente = _clientes.Find(c => c.Equals(clientePesquisa));
              return cliente;
+        }
+
+        public bool realizarAlocacaoMesa(Requisicao requisicao)
+        {
+            List<Mesa> mesasLivres = buscarMesasLivres();
+        
+            foreach(Mesa mesa in mesasLivres)
+            {
+                if (mesa.ValidaAlocacao(requisicao.QuantLugares))
+                {
+                    requisicao.alocarMesa(mesa);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public override string ToString()
+        {
+            return "========= "+_nomeEstabelecimento+" =========";
         }
 
     }

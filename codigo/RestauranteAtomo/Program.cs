@@ -13,50 +13,79 @@ namespace RestauranteAtomo
         const int CAFE = 2;
         #endregion
         
+        /// <summary>
+        /// Método que contém as opcoes do menu de selecao do estabelecimento
+        /// </summary>
+        public static string menuInicial(){
+            StringBuilder stringBuilder= new StringBuilder();
+            stringBuilder.AppendLine("Escolha um estabelecimento:");
+            stringBuilder.AppendLine("1) Restaurante");
+            stringBuilder.AppendLine("2) Café");
+            stringBuilder.AppendLine("0) Sair");
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Método que permite a escolha do estabelecimento 
+        /// para executar as operacoes do sistema
+        /// </summary>
         public static void escolherEstabelecimento(){
-            Console.WriteLine("Escolha um estabelecimento:");
-            Console.WriteLine("1) Restaurante");
-            Console.WriteLine("2) Café");
-            Console.WriteLine("0) Sair");
+
             int codigo;
             do{
                 try{
+                    Console.WriteLine(menuInicial());
                     codigo = int.Parse(Console.ReadLine());
+                    Console.Clear();
                     switch(codigo)
                     {
                         case RESTAURANTE: 
-                            estabelecimento = new Restaurante(codigo, "Restaurante Átomo");
-                            // for (int i = 1; i <= 10; i++) {
-                            //     Cliente cliente = new Cliente("Cliente" + i, "8888"+i);
-                            //     estabelecimento.adicionarCliente(cliente);
-                            //     if(i <= 4){
-                            //         estabelecimento.atenderCliente(cliente, 4);
-                            //     }else if(i > 4 && i <= 8){
-                            //         estabelecimento.atenderCliente(cliente, 6);
-                            //     }else{
-                            //         estabelecimento.atenderCliente(cliente, 8);
-                            //     }
-                            // }
+                            if(estabelecimento == null){
+                                estabelecimento = new Restaurante(codigo, "Restaurante Átomo");
+                                mockDados();
+                            }
                             executarOperacoesRestaurante();
                             break;
                         case CAFE:
+                            //if(estabelecimento == null){
                             //estabelecimento = new Cafe(codigo, "Café Átomo");
+                            //}
                             //executarOperacoesCafe();
                             break;
                         case 0:
                             Console.WriteLine("Adeus!");
                             break;
                         default: 
-                            Console.WriteLine("Opção inválida");
+                            Console.WriteLine("Opção inválida!");
                             break;
                     }
                 }catch(FormatException){
-                     Console.WriteLine("Opção inválida");
+                    Console.WriteLine("Opção inválida!");
                     codigo = -1;
                 }
-            }while(codigo != 0);            
+            }while(codigo != 0);       
         }
 
+        /// <summary>
+        /// Método com dados de teste
+        /// </summary>
+        private static void mockDados(){
+            for (int i = 1; i <= 10; i++) {
+                Cliente cliente = new Cliente("Cliente" + i, "8888"+i);
+                estabelecimento.adicionarCliente(cliente);
+                if(i <= 4){
+                    estabelecimento.atenderCliente(cliente, 4);
+                }else if(i > 4 && i <= 8){
+                    estabelecimento.atenderCliente(cliente, 6);
+                }else{
+                    estabelecimento.atenderCliente(cliente, 8);
+                }
+            }
+        }
+
+        /// <summary>
+        /// método de chamar o atendimento da próxima pessoa da fila de espera
+        /// </summary>
         public static void atenderFilaDeEspera(){
             Restaurante restaurante = (Restaurante) estabelecimento;
             
@@ -81,6 +110,7 @@ namespace RestauranteAtomo
         public static string menu()
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine(estabelecimento.ToString());
             sb.AppendLine("\nMenu");
             sb.AppendLine("1) Novo cliente");
             sb.AppendLine("2) Atender cliente");
@@ -91,7 +121,9 @@ namespace RestauranteAtomo
             if(estabelecimento.GetHashCode() == RESTAURANTE){
                 sb.AppendLine("6) Atender próximo da fila de espera");
             }
-            
+
+            sb.AppendLine("7) Exibir Lista de Requisições");
+            sb.AppendLine("8) Exibir Lista de Mesas");
             sb.AppendLine("0) Sair do programa");
             return sb.ToString();
         }
@@ -156,33 +188,6 @@ namespace RestauranteAtomo
         }
 
         /// <summary>
-        /// Método auxiliar para retornar uma resposta booleana a uma pergunta cuja resposta é somente 'sim' ou 'nao', no caso de iniciar um atendimento
-        /// imediatamente após o cadastro de um cliente
-        /// </summary>
-        private static bool deveIniciarAtendimento()
-        {
-            Console.WriteLine("Deseja iniciar o atendimento ? Responda sim ou nao ");
-            string pattern = "sim|nao";
-            bool respostaValida;
-            string resposta;
-            do
-            {
-                resposta = Console.ReadLine();
-                if (Regex.Match(resposta, pattern).Success)
-                {
-                    respostaValida = true;
-                }
-                else
-                {
-                    Console.WriteLine("Sua resposta deve ser \'sim\' ou \'nao\'");
-                    respostaValida = false;
-                }
-            } while (!respostaValida);
-
-            return resposta.Contains("sim") ? true : false;
-        }
-
-        /// <summary>
         /// inicia a busca de um cliente pelo nome
         /// </summary>
         /// <returns>o primeiro cliente com o nome especificado ou nenhum cliente, caso nao exista</returns>
@@ -201,6 +206,7 @@ namespace RestauranteAtomo
         {
             Console.WriteLine("\nDigite qualquer tecla para retornar ao menu!");
             Console.ReadKey();
+            Console.Clear();
         }
 
         // Hayanne
@@ -241,16 +247,17 @@ namespace RestauranteAtomo
 
             Console.WriteLine("Informe o número da mesa:");
             int numero;
+            List<Mesa> mesasExistentes = new List<Mesa>();
             do
             {
                 numero = int.Parse(Console.ReadLine());
-                List<Mesa> mesas = estabelecimento.Mesas.Where((m) => m.Numero == numero).ToList();
-                if (numero <= 0 || mesas.Count > 0)
+                mesasExistentes = estabelecimento.Mesas.Where((m) => m.Numero == numero).ToList();
+                if (numero <= 0 || mesasExistentes.Count > 0)
                 {
                     Console.WriteLine("O número tem que ser diferente de 0 ou o número da mesa já existe. Digite novamente.");
                 }
                 else break;
-            } while (numero <= 0);
+            } while (numero <= 0 || mesasExistentes.Count > 0);
 
             Mesa mesa = new Mesa(numero, capacidade, ocupada);
             bool adicionada = estabelecimento.adicionarMesa(mesa);
@@ -330,7 +337,13 @@ namespace RestauranteAtomo
             {
                 Console.WriteLine(menu());
                 Console.WriteLine("Digite a opção desejada: ");
-                opcao = int.Parse(Console.ReadLine());
+                bool valido = false;
+                do{
+                    valido = int.TryParse(Console.ReadLine(), out opcao);
+                    if(!valido) Console.WriteLine("Digite novamente !");
+                }while(!valido);
+                Console.Clear();
+
                 switch (opcao)
                 {
                     case 1:
@@ -376,13 +389,22 @@ namespace RestauranteAtomo
                         atenderFilaDeEspera();
                         espera();
                         break;
+                    case 7:
+                        Console.WriteLine(estabelecimento.exibirListaRequisicoes());
+                        espera();
+                        break;
+                    case 8:
+                        Console.WriteLine("divider");
+                        Console.WriteLine(estabelecimento.exibirMesas());
+                        espera();
+                        break;
                     case 0:
+                        Console.Clear();
                         break;
                     default:
-                        Console.WriteLine("Opção inválida!\n");
+                        Console.WriteLine("Opção inválida!");
                         break;
                 }
-                Console.Clear();
             } while (opcao != 0);
         }
 
@@ -393,7 +415,13 @@ namespace RestauranteAtomo
             // {
             //     Console.WriteLine(menu());
             //     Console.WriteLine("Digite a opção desejada: ");
-            //     opcao = int.Parse(Console.ReadLine());
+            //     bool valido = false;
+            //     do{
+            //         valido = int.TryParse(Console.ReadLine(), out opcao);
+            //         if(!valido) Console.WriteLine("Digite novamente !");
+            //     }while(!valido);
+            //     Console.Clear();
+                
             //     switch (opcao)
             //     {
             //         case 1:
@@ -403,19 +431,18 @@ namespace RestauranteAtomo
             //             break;
             //         case 2:
             //             Cliente c = iniciarBuscaCliente();
-            //             if (c != null && cafe.findRequisicaoAtendidaCliente(c) == null && cafe.findRequisicaoNaoAtendidaCliente(c) == null)
-            //                 iniciarAtendimento(c, "O café está cheio. Peça ao cliente para voltar novamente em outro horário.");
+            //             if (c != null && cafe.findRequisicaoAtendidaCliente(c) == null)
+            //                 iniciarAtendimento(c, "O estabelecimento está lotado. Peça para o cliente voltar em outro momento!");
             //             else
             //             {
             //                 string mensagem = "Cliente não encontrado ou cliente possui requisição pendente.\n";
-            //                 mensagem += "Para cadastrar nova requisição, a requisição existente deve ser finalizada primeiro !";
+            //                 mensagem += "Para cadastrar nova requisição, a requisição existente deve ser finalizada primeiro!";
             //                 Console.WriteLine(mensagem);
             //             }
             //             espera();
             //             break;
             //         case 3:
             //             adicionarMesa();
-            //             Console.WriteLine(cafe.exibirMesas());
             //             espera();
             //             break;
             //         case 4:
@@ -436,13 +463,22 @@ namespace RestauranteAtomo
             //             else Console.WriteLine("Cliente não encontrado ou o cliente não possui requisição ativa. Favor tentar novamente! \n");
             //             espera();
             //             break;
+            //         case 7:
+            //              Console.WriteLine(estabelecimento.exibirListaRequisicoes());
+            //              espera();
+            //              break;
+            //        case 8:
+            //              Console.WriteLine("divider");
+            //              Console.WriteLine(estabelecimento.exibirMesas());
+            //              espera();
+            //              break;
             //         case 0:
+            //             Console.Clear();
             //             break;
             //         default:
-            //             Console.WriteLine("Opção inválida!\n");
+            //             Console.WriteLine("Opção inválida!");
             //             break;
             //     }
-            //     Console.Clear();
             // } while (opcao != 0);
         }
 
