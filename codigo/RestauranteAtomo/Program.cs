@@ -37,7 +37,6 @@ namespace RestauranteAtomo
                     Console.WriteLine(menuInicial());
                     codigo = int.Parse(Console.ReadLine());
                     Console.Clear();
-                    estabelecimento = (Estabelecimento) estabelecimento;
                     switch(codigo)
                     {
                         case RESTAURANTE: 
@@ -328,8 +327,7 @@ namespace RestauranteAtomo
         }
 
         public static void executarOperacoesRestaurante(){
-            Estabelecimento copy = estabelecimento;
-            Restaurante restaurante = (Restaurante) copy;
+            Restaurante restaurante = (Restaurante) estabelecimento;
             int opcao;
             do
             {
