@@ -159,14 +159,15 @@ namespace RestauranteAtomo
         {
             Console.WriteLine("Reserva para quantas pessoas ?");
             int quantidadePessoas;
+            bool convertido;
             do
             {
-                quantidadePessoas = int.Parse(Console.ReadLine());
-                if (quantidadePessoas <= 0)
+                convertido = int.TryParse(Console.ReadLine(), out quantidadePessoas);
+                if (quantidadePessoas <= 0 || !convertido)
                 {
-                    Console.WriteLine("Quantidade de pessoas deve ser maior que 0. Digite novamente");
+                    Console.WriteLine("Quantidade de pessoas deve ser maior que 0 ou não é válida. Digite novamente");
                 }
-            } while (quantidadePessoas <= 0);
+            } while (quantidadePessoas <= 0 || !convertido);
 
             bool atendido = estabelecimento.atenderCliente(cliente, quantidadePessoas);
 
@@ -190,7 +191,15 @@ namespace RestauranteAtomo
         private static Cliente? iniciarBuscaCliente()
         {
             Console.WriteLine("Informe o id do cliente: ");
-            int idCliente = int.Parse(Console.ReadLine());
+            bool convertido;
+            int idCliente;
+            do
+            {
+                convertido = int.TryParse(Console.ReadLine(), out idCliente);
+                if(!convertido){
+                    Console.WriteLine("Não é um código válido!");
+                }
+            }while(!convertido);
 
             return estabelecimento.localizarCliente(idCliente);
         }
@@ -231,29 +240,30 @@ namespace RestauranteAtomo
 
             Console.WriteLine("A mesa possui capacidade para quantas pessoas?");
             int capacidade = 0;
+            bool convertido;
             do
             {
-                capacidade = int.Parse(Console.ReadLine());
-                if (capacidade <= 0)
+                convertido = int.TryParse(Console.ReadLine(), out capacidade);
+                if (capacidade <= 0 || !convertido)
                 {
                     Console.WriteLine("Capacidade inválida. Digite novamente.");
                 }
                 else break;
-            } while (capacidade <= 0);
+            } while (capacidade <= 0 || !convertido);
 
             Console.WriteLine("Informe o número da mesa:");
             int numero;
             List<Mesa> mesasExistentes = new List<Mesa>();
             do
             {
-                numero = int.Parse(Console.ReadLine());
+                convertido = int.TryParse(Console.ReadLine(), out numero);
                 mesasExistentes = estabelecimento.Mesas.Where((m) => m.Numero == numero).ToList();
-                if (numero <= 0 || mesasExistentes.Count > 0)
+                if (numero <= 0 || mesasExistentes.Count > 0 || !convertido)
                 {
                     Console.WriteLine("O número tem que ser diferente de 0 ou o número da mesa já existe. Digite novamente.");
                 }
                 else break;
-            } while (numero <= 0 || mesasExistentes.Count > 0);
+            } while (numero <= 0 || mesasExistentes.Count > 0 || !convertido);
 
             Mesa mesa = new Mesa(numero, capacidade, ocupada);
             bool adicionada = estabelecimento.adicionarMesa(mesa);
@@ -278,8 +288,16 @@ namespace RestauranteAtomo
                 Console.WriteLine(estabelecimento.ExibirCardapio());
                 
                 Console.WriteLine("Informe o código do item solicitado: ");
-                int codigoEscolhido = int.Parse(Console.ReadLine());
-         
+                
+                bool convertido;
+                int codigoEscolhido;
+                do{
+                    convertido = int.TryParse(Console.ReadLine(), out codigoEscolhido);
+                    if(!convertido){
+                        Console.WriteLine("Código inválido. Digite novamente");
+                    }
+                }while(!convertido);
+            
                 Produto produtoAdcionado = estabelecimento.AtenderSolicitacaoItem(codigoEscolhido, requisicaoAtual);
 
                 if(produtoAdcionado != null){
