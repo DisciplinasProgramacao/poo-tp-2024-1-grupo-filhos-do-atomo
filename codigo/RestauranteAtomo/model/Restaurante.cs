@@ -20,7 +20,20 @@ namespace RestauranteAtomo.model
         public Restaurante(int id,string nomeEstabelecimento) : base (id, nomeEstabelecimento) 
         {
             _filaDeEspera = new List<Requisicao>();
-            _cardapio = new CardapioCafe();//*
+            _cardapio = new CardapioRestaurante();
+            _mesas = new List<Mesa>
+            {
+                new Mesa(1, 4, false),
+                new Mesa(2, 4, false),
+                new Mesa(3, 4, false),
+                new Mesa(4, 4, false),
+                new Mesa(5, 6, false),
+                new Mesa(6, 6, false),
+                new Mesa(7, 6, false),
+                new Mesa(8, 6, false),
+                new Mesa(9, 8, false),
+                new Mesa(10, 8, false)
+            };
         }
 
         
@@ -98,24 +111,15 @@ namespace RestauranteAtomo.model
         public Requisicao findRequisicaoNaoAtendidaCliente(Cliente cliente){
             return _filaDeEspera.Find(r => r.MeuCliente.Equals(cliente) && !r.foiAtendida());
         }
-        
+
 
         /// <summary>
-        ///  Exibe as requisicoes
+        ///  Chama o método da superclasse e adiciona qualquer comportamento adicional, se necessário
         /// </summary>
         /// <returns>Retorna uma string do ToString de requisicao</returns>
-        public String exibirListaRequisicoes(){
-            StringBuilder descEspera = new StringBuilder("\n----Fila de Espera----\n");
-            foreach(Requisicao req in _filaDeEspera){
-                descEspera.AppendLine(req.MeuCliente.Nome + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
-            }
-
-            descEspera.AppendLine("\n----Histórico de Requisições Atendidas----");
-            foreach(Requisicao req in historicoRequisicoes){
-                descEspera.AppendLine(req.MeuCliente.Nome + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
-            }
-
-            return descEspera.ToString();
+        public override String exibirListaRequisicoes()
+        {
+            return base.exibirListaRequisicoes();
         }
 
 
