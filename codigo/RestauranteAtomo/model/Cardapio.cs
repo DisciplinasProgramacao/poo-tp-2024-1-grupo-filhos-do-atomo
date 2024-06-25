@@ -72,8 +72,7 @@ namespace RestauranteAtomo.model
         /// Método responsavel por adicionar itens do restaurante no cardápio
         /// </summary>
         protected abstract void carregarCardapio();
-       
-
+      
         #endregion
 
 
