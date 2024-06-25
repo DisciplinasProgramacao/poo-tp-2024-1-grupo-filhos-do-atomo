@@ -119,7 +119,11 @@ namespace RestauranteAtomo.model
         /// <returns>Retorna uma string do ToString de requisicao</returns>
         public override String exibirListaRequisicoes()
         {
-            return base.exibirListaRequisicoes();
+            StringBuilder descEspera = new StringBuilder("\n----Fila de Espera----\n");
+            foreach(Requisicao req in _filaDeEspera){
+                descEspera.AppendLine(req.MeuCliente.ToString() + " : " + req.Mesa + " - Pessoas: " + req.QuantLugares);
+            }
+            return base.exibirListaRequisicoes() + "\n" + descEspera.ToString();
         }
 
 

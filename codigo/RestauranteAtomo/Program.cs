@@ -85,7 +85,7 @@ namespace RestauranteAtomo
         public static void atenderFilaDeEspera(){
             Restaurante restaurante = (Restaurante) estabelecimento;
             
-            if(restaurante.listaDeEsperaVazia()){
+            if(restaurante.isListaDeEsperaVazia()){
                 Console.WriteLine("Não há requisições na fila de espera!");
                 return;
             }
