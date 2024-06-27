@@ -1,6 +1,8 @@
 ﻿using RestauranteAtomo.model;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics.Arm;
 
 namespace RestauranteAtomo
 {
@@ -193,18 +195,35 @@ namespace RestauranteAtomo
         /// <returns>o primeiro cliente com o nome especificado ou nenhum cliente, caso nao exista</returns>
         private static Cliente? iniciarBuscaCliente()
         {
-            Console.WriteLine("Informe o id do cliente: ");
             bool convertido;
             int idCliente;
+            Cliente cliente = null;
+            bool erro = false;
             do
             {
-                convertido = int.TryParse(Console.ReadLine(), out idCliente);
-                if(!convertido){
-                    Console.WriteLine("Não é um código válido!");
-                }
-            }while(!convertido);
+                do
+                {
+                    Console.WriteLine("Informe o id do cliente: ");
+                    convertido = int.TryParse(Console.ReadLine(), out idCliente);
+                    if (!convertido)
+                    {
+                        Console.WriteLine("Não é um código válido!");
+                    }
+                } while (!convertido);
 
-            return estabelecimento.localizarCliente(idCliente);
+                try
+                {
+                    cliente = estabelecimento.localizarCliente(idCliente);
+                    erro = false;
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    erro = true;
+                }
+            } while (erro);
+
+            return cliente;
         }
 
         /// <summary>
@@ -269,14 +288,21 @@ namespace RestauranteAtomo
             } while (numero <= 0 || mesasExistentes.Count > 0 || !convertido);
 
             Mesa mesa = new Mesa(numero, capacidade, ocupada);
-            bool adicionada = estabelecimento.adicionarMesa(mesa);
+
+            bool adicionada = false;
+            try
+            {
+                adicionada = estabelecimento.adicionarMesa(mesa);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             
             if(adicionada){
                 Console.WriteLine("Mesa adicionada!");
                 Console.WriteLine(estabelecimento.exibirMesas());
             }
-            else
-                Console.WriteLine("Mesa não adicionada! O estabelecimento já possui o limite de mesas!");
         }
         #endregion
 
@@ -287,27 +313,45 @@ namespace RestauranteAtomo
         public static void atenderSolicitacaoItem(Cliente cliente)
         {
             Requisicao requisicaoAtual = estabelecimento.findRequisicaoAtendidaCliente(cliente);
+            bool cardapioExibido = false;
             if (requisicaoAtual != null)   {
-                Console.WriteLine(estabelecimento.ExibirCardapio());
-                
-                Console.WriteLine("Informe o código do item solicitado: ");
-                
-                bool convertido;
-                int codigoEscolhido;
-                do{
-                    convertido = int.TryParse(Console.ReadLine(), out codigoEscolhido);
-                    if(!convertido){
-                        Console.WriteLine("Código inválido. Digite novamente");
-                    }
-                }while(!convertido);
-            
-                Produto produtoAdcionado = estabelecimento.AtenderSolicitacaoItem(codigoEscolhido, requisicaoAtual);
+                try
+                {
+                    Console.WriteLine(estabelecimento.ExibirCardapio());
+                    cardapioExibido = true;
+                }
+                catch (NullReferenceException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    cardapioExibido = false;
+                }
 
-                if(produtoAdcionado != null){
-                    Console.WriteLine("O produto abaixo foi adicionado à requisição do cliente:\n" + produtoAdcionado.ToString() + "\n"
-                     + cliente.ToString());
-                }else{
-                    Console.WriteLine("Produto não encontrado!");
+                if (cardapioExibido)
+                {
+                    Console.WriteLine("Informe o código do item solicitado: ");
+
+                    bool convertido;
+                    int codigoEscolhido;
+                    do
+                    {
+                        convertido = int.TryParse(Console.ReadLine(), out codigoEscolhido);
+                        if (!convertido)
+                        {
+                            Console.WriteLine("Código inválido. Digite novamente");
+                        }
+                    } while (!convertido);
+
+                    Produto produtoAdcionado = estabelecimento.AtenderSolicitacaoItem(codigoEscolhido, requisicaoAtual);
+
+                    if (produtoAdcionado != null)
+                    {
+                        Console.WriteLine("O produto abaixo foi adicionado à requisição do cliente:\n" + produtoAdcionado.ToString() + "\n"
+                         + cliente.ToString());
+                    }
+                    else
+                    {
+                        Console.WriteLine("Produto não encontrado!");
+                    }
                 }
             }else{
                 Console.WriteLine("O cliente não possui requisição ativa atualmente!");

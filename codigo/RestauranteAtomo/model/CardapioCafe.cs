@@ -15,7 +15,7 @@ namespace RestauranteAtomo.model
         /// </summary>
         protected override void carregarCardapio()
         {
-            produtos.Add(new Produto("Pão de queijo", 5.00));
+            produtos.Add(new Produto("Não de queijo", 5.00));
             produtos.Add(new Produto("Bolinha de cogumelo", 7.00));
             produtos.Add(new Produto("Rissole de palmito", 7.00));
             produtos.Add(new Produto("Coxinha de carne de jaca", 8.00));

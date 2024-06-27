@@ -152,7 +152,14 @@ namespace RestauranteAtomo.model
         /// <param name="produto">produto dado como parâmetro para ser adicionado</param>
         public void receberItemSolicitado(Produto produto)
         {
-            pedido.adicionarItem(produto);
+            if (isAberta())
+            {
+                pedido.adicionarItem(produto);
+            }
+            else
+            {
+                throw new InvalidOperationException("Uma requisição finalizada não pode receber produtos!");
+            }
         }
 
         /// <summary>

@@ -117,10 +117,16 @@ namespace RestauranteAtomo.model
             if (produto != null)
             {
                 // 3. Adicionar o produto à requisição do cliente
-                requisicao.receberItemSolicitado(produto);
-                return produto;
+                try
+                {
+                    requisicao.receberItemSolicitado(produto);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return null;
+                }
             }
-            return null;
+            return produto;
         }
 
         /// <summary>
@@ -131,8 +137,15 @@ namespace RestauranteAtomo.model
         {
             StringBuilder cardapioTexto = new StringBuilder();
             // 1. Adicionar título do cardápio
-            cardapioTexto.AppendLine(_nomeEstabelecimento + " Cardápio**");
-            return cardapioTexto.ToString() + _cardapio.menuFormatado();
+            if(_cardapio != null)
+            {
+                cardapioTexto.AppendLine(_nomeEstabelecimento + " Cardápio**");
+                return cardapioTexto.ToString() + _cardapio.menuFormatado();
+            }
+            else
+            {
+                throw new NullReferenceException("Cardápio não encontrado!");
+            }
         }
 
         /// <summary>
@@ -158,7 +171,10 @@ namespace RestauranteAtomo.model
                _mesas.Add(mesa);
                return true;
             }
-            return false;
+            else
+            {
+                throw new InvalidOperationException("O limite de mesas foi excedido!");
+            }
         }
 
         public bool adicionarCliente(Cliente cliente){
@@ -173,9 +189,17 @@ namespace RestauranteAtomo.model
         }
 
         public Cliente localizarCliente(int idCliente){
-             Cliente clientePesquisa = new Cliente(idCliente);
-             Cliente cliente = _clientes.Find(c => c.Equals(clientePesquisa));
-             return cliente;
+            if(idCliente > 0)
+            {
+                Cliente clientePesquisa = new Cliente(idCliente);
+                Cliente cliente = _clientes.Find(c => c.Equals(clientePesquisa));
+                return cliente;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("idCliente", "código do cliente deve ser maior que 0");
+            }
+
         }
 
         public bool realizarAlocacaoMesa(Requisicao requisicao)
