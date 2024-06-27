@@ -28,17 +28,17 @@ namespace RestauranteAtomo.model
         public int Numero
         {
             get { return numero; }
-            set { numero = value; }
+           
         }
         public int Capacidade
         {
             get { return capacidade; }
-            set { capacidade = value; }
+            
         }
         public bool Ocupada
         {
             get { return ocupada; }
-            set { ocupada = value; }
+         
         }
         /// <summary>
         /// Valida a alocação Se a quantidade de pessoas for menor do que a capacidade e a mesa não estiver ocupada...
