@@ -88,7 +88,7 @@ namespace RestauranteAtomo.model
             StringBuilder descMesas = new StringBuilder();
             foreach(Mesa mesa in _mesas)
             {
-                descMesas.AppendLine("\nMesa " + mesa.Numero + ": capacidade para " + mesa.Capacidade + " pessoas.");
+                descMesas.AppendLine(mesa.ToString() + "\n");
             }
             return descMesas.ToString();
         }
@@ -192,6 +192,8 @@ namespace RestauranteAtomo.model
             }
             return false;
         }
+
+        public abstract string mensagemAtendimentoNegado();
 
         public override string ToString()
         {

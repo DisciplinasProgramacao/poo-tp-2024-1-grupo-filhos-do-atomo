@@ -20,9 +20,8 @@ namespace RestauranteAtomo.model
             new Mesa(5, 6,false),
             new Mesa(6, 6,false),
             new Mesa(7, 6,false),
-            new Mesa(8, 6,false),
-            new Mesa(9, 8,false),
-            new Mesa(10, 8,false)
+            new Mesa(8, 8,false),
+            new Mesa(9, 8,false)
         };
             _cardapio = new CardapioCafe();
         }
@@ -38,6 +37,11 @@ namespace RestauranteAtomo.model
             }
 
             return false;
+        }
+
+        public override string mensagemAtendimentoNegado()
+        {
+            return "O estabelecimento está lotado. Peça para o cliente voltar em outro momento!";
         }
     }
 }

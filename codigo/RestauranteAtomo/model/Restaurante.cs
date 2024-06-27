@@ -30,9 +30,8 @@ namespace RestauranteAtomo.model
                 new Mesa(5, 6, false),
                 new Mesa(6, 6, false),
                 new Mesa(7, 6, false),
-                new Mesa(8, 6, false),
-                new Mesa(9, 8, false),
-                new Mesa(10, 8, false)
+                new Mesa(8, 8, false),
+                new Mesa(9, 8, false)
             };
         }
 
@@ -143,6 +142,10 @@ namespace RestauranteAtomo.model
             return resposta;
         }
 
+        public override string mensagemAtendimentoNegado()
+        {
+            return "Requisição não atendida. O cliente entrou na fila de espera";
+        }
 
         #endregion /* Fim Metodo Publicos */;
     }
