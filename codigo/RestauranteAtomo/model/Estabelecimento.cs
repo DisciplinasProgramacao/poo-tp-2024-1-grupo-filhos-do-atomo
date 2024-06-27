@@ -193,6 +193,23 @@ namespace RestauranteAtomo.model
             return false;
         }
 
+        public string listarClientes()
+        {
+            if (_clientes.Count == 0)
+                return "Sem Clientes";          
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var cliente in _clientes)
+                {
+                    sb.AppendLine("----------------------");
+                    sb.AppendLine(cliente.ToString());
+                }
+
+                return sb.ToString();
+            }
+        }
+
         public abstract string mensagemAtendimentoNegado();
 
         public override string ToString()

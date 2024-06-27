@@ -112,6 +112,7 @@ namespace RestauranteAtomo
             sb.AppendLine("\nMenu");
             sb.AppendLine(++index+") Novo cliente");
             sb.AppendLine(++index+") Atender cliente");
+            sb.AppendLine(++index+") Listar clientes");
             sb.AppendLine(++index+") Adicionar mesa ao Restaurante");
             sb.AppendLine(++index + ") Atender Solicitação de item do cardápio");
             sb.AppendLine(++index + ") Fechar conta");
@@ -382,10 +383,14 @@ namespace RestauranteAtomo
                         espera();
                         break;
                     case 3:
-                        adicionarMesa();
+                        Console.WriteLine(estabelecimento.listarClientes());
                         espera();
                         break;
                     case 4:
+                        adicionarMesa();
+                        espera();
+                        break;
+                    case 5:
                         Cliente c2 = iniciarBuscaCliente();
                         if (c2 != null)
                         {
@@ -394,7 +399,7 @@ namespace RestauranteAtomo
                         else Console.WriteLine("Cliente não encontrado! \n");
                         espera();
                         break;
-                    case 5:
+                    case 6:
                         Cliente c3 = iniciarBuscaCliente();
                         if (c3 != null)
                         {
@@ -403,15 +408,15 @@ namespace RestauranteAtomo
                         else Console.WriteLine("Cliente não encontrado! \n");
                         espera();
                         break;
-                    case 6:
+                    case 7:
                         atenderFilaDeEspera();
                         espera();
                         break;
-                    case 7:
+                    case 8:
                         Console.WriteLine(estabelecimento.exibirListaRequisicoes());
                         espera();
                         break;
-                    case 8:
+                    case 9:
                         Console.WriteLine("divider");
                         Console.WriteLine(estabelecimento.exibirMesas());
                         espera();
@@ -464,10 +469,14 @@ namespace RestauranteAtomo
                         espera();
                         break;
                     case 3:
-                        adicionarMesa();
+                        Console.WriteLine(estabelecimento.listarClientes());
                         espera();
                         break;
                     case 4:
+                        adicionarMesa();
+                        espera();
+                        break;
+                    case 5:
                         Cliente c2 = iniciarBuscaCliente();
                         if (c2 != null)
                         {
@@ -476,7 +485,7 @@ namespace RestauranteAtomo
                         else Console.WriteLine("Cliente não encontrado!\n");
                         espera();
                         break;
-                    case 5:
+                    case 6:
                         Cliente c3 = iniciarBuscaCliente();
                         if (c3 != null)
                         {
@@ -485,11 +494,11 @@ namespace RestauranteAtomo
                         else Console.WriteLine("Cliente não encontrado!\n");
                         espera();
                         break;
-                    case 6:
+                    case 7:
                         Console.WriteLine(estabelecimento.exibirListaRequisicoes());
                         espera();
                         break;
-                    case 7:
+                    case 8:
                         Console.WriteLine(estabelecimento.exibirMesas());
                         espera();
                         break;
