@@ -133,25 +133,24 @@ namespace RestauranteAtomo
         /// Cria um novo cliente a partir dos dados solicitados.
         /// </summary>
         /// <returns>O cliente cadastrado, caso os dados sejam validos.</returns>
-        public static Cliente? registrarCliente(out List<string> erros)
+        public static Cliente? registrarCliente()
         {
             Console.WriteLine("Informe o nome do cliente: ");
             string nome = Console.ReadLine();
 
-            Console.WriteLine("Informe o contato do cliente (telefone)");
-            long contato;
-
-            bool numeroValido = long.TryParse(Console.ReadLine(), out contato);
-
-            erros = new List<string>();
 
             if (nome.Length < 3)
-                erros.Add("Nome inválido ! O nome deve possuir no mínimo 3 caracteres. ");
+                throw new ArgumentOutOfRangeException("Nome", "Nome inválido ! O nome deve possuir no mínimo 3 caracteres. ");
+
+
+            Console.WriteLine("Informe o contato do cliente (telefone)");
+            long contato;
+            bool numeroValido = long.TryParse(Console.ReadLine(), out contato);
 
             if (!numeroValido)
-                erros.Add("Contato inválido ! Informe somente os dígitos. ");
+                throw new FormatException("Contato inválido ! Informe somente os dígitos. ");
 
-            return erros.Count == 0 ? new Cliente(nome, contato.ToString()) : null;
+            return new Cliente(nome, contato.ToString());
         }
 
         /// <summary>
@@ -371,7 +370,7 @@ namespace RestauranteAtomo
             }
         }
         
-        public static void executarCadastro(Cliente novoCliente, List<string> erros){
+        public static void executarCadastro(Cliente novoCliente){
 
             if (novoCliente != null)
             {
@@ -385,8 +384,7 @@ namespace RestauranteAtomo
             }
             else
             {
-               foreach (string erro in erros)
-                      Console.WriteLine(erro + "\n");
+                Console.WriteLine("Cliente inválido!");
             }
            espera();
         }
@@ -407,9 +405,15 @@ namespace RestauranteAtomo
                 switch (opcao)
                 {
                     case 1:
-                        List<string> erros;
-                        Cliente novoCliente = registrarCliente(out erros);
-                        executarCadastro(novoCliente, erros);
+                        try
+                        {
+                            Cliente novoCliente = registrarCliente();
+                            executarCadastro(novoCliente);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
                     case 2:
                         Cliente c = iniciarBuscaCliente();
@@ -476,7 +480,6 @@ namespace RestauranteAtomo
         }
 
         public static void executarOperacoesCafe(){
-            Cafe cafe = (Cafe)estabelecimento;
             int opcao;
             do
             {
@@ -493,9 +496,15 @@ namespace RestauranteAtomo
                 switch (opcao)
                 {
                     case 1:
-                        List<string> erros;
-                        Cliente novoCliente = registrarCliente(out erros);
-                        executarCadastro(novoCliente, erros);
+                        try
+                        {
+                            Cliente novoCliente = registrarCliente();
+                            executarCadastro(novoCliente);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                         break;
                     case 2:
                         Cliente c = iniciarBuscaCliente();
